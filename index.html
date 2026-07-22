@@ -2161,12 +2161,12 @@ function openAdvisor(intent){
     startedAt = Date.now();
     if(intent === 'reprogramacion'){
       conversationState.intent = 'reprogramacion';
-      const greeting = "Claro. Para confirmar qué opciones pueden aplicarse, ¿qué vehículo tienes?";
+      const greeting = "¡Buena elección! Para orientarte mejor con las opciones de reprogramación, contame primero: ¿qué vehículo tenés?";
       botSay(greeting, 300);
       apiMessages.push({role:'assistant', content: greeting});
       showQuickReplies(["Mustang", "Camaro", "Dodge", "Otro vehículo"]);
     } else {
-      const greeting = "Hola, soy el asesor de Urbicars Motors. Cuéntame qué necesitas hacerle a tu vehículo o qué problema está presentando, y te ayudaré a preparar la consulta para el equipo.";
+      const greeting = "¡Hola! 👋 Soy el asesor de Urbicars Motors. ¿En qué puedo ayudarte hoy?";
       botSay(greeting, 300);
       apiMessages.push({role:'assistant', content: greeting});
       showQuickReplies(["Quiero una reprogramación", "Tengo una falla o Check Engine", "Necesito diagnóstico", "Mecánica o mantenimiento", "Electricidad o electrónica", "Tren delantero", "Consultar otro servicio"]);
@@ -2473,7 +2473,7 @@ function resetAdvisorConversation(){
   advisorInputRow.style.display = 'flex';
   advisorInput.value = '';
   setProgress('start');
-  const greeting = "Hola, soy el asesor de Urbicars Motors. Cuéntame qué necesitas hacerle a tu vehículo o qué problema está presentando, y te ayudaré a preparar la consulta para el equipo.";
+  const greeting = "¡Hola! 👋 Soy el asesor de Urbicars Motors. ¿En qué puedo ayudarte hoy?";
   botSay(greeting, 200);
   apiMessages.push({role:'assistant', content: greeting});
   showQuickReplies(["Quiero una reprogramación", "Tengo una falla o Check Engine", "Necesito diagnóstico", "Mecánica o mantenimiento", "Electricidad o electrónica", "Tren delantero", "Consultar otro servicio"]);
