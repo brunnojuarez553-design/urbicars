@@ -1,134 +1,124 @@
-// api/chat.js
-// Endpoint serverless (Vercel) que hace de proxy seguro entre el frontend
-// de Urbicars Motors y Groq. La GROQ_API_KEY vive solo aquí, nunca en el HTML.
+// /api/chat.js — Asesor conversacional de Urbicars Motors
+// Frontend (index.html) -> POST /api/chat -> Groq (fallback OpenAI)
+// Las API keys viven SOLO en variables de entorno de Vercel, nunca en el frontend.
+//
+// Variables de entorno requeridas en Vercel:
+//   GROQ_API_KEY     -> clave de Groq (proveedor principal)
+//   OPENAI_API_KEY   -> clave de OpenAI (fallback si Groq falla)
 
 const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
-const MODEL = "llama-3.3-70b-versatile";
+const OPENAI_URL = "https://api.openai.com/v1/chat/completions";
+const GROQ_MODEL = "llama-3.3-70b-versatile";
+const OPENAI_MODEL = "gpt-4o-mini";
 
-const MAX_HISTORY_MESSAGES = 16;     // últimos N mensajes reales (sin contar el system)
-const MAX_MESSAGE_LENGTH = 1200;     // caracteres por mensaje de usuario
-const REQUEST_TIMEOUT_MS = 20000;
+const LEAD_FIELDS = [
+  "nombre", "telefono", "marca", "modelo", "anio", "motor", "combustible",
+  "transmision", "kilometraje", "servicio", "motivoConsulta", "sintomas",
+  "condicionesFalla", "lucesTablero", "codigosFalla", "desdeCuando", "enciende",
+  "circula", "modificaciones", "trabajosPrevios", "ubicacion", "disponibilidad",
+  "prioridad", "observaciones"
+];
 
-const SYSTEM_PROMPT = `Eres el Asesor Urbicars, el asesor digital de Urbicars Motors, un taller automotriz profesional ubicado en Maracay, Venezuela.
+const SYSTEM_PROMPT = `Sos el asesor virtual de Urbicars Motors, un taller especializado en mecánica, electricidad, diagnóstico y reprogramación (ECU) de vehículos en Venezuela.
 
-Tu función es conversar de manera natural con potenciales clientes, comprender qué necesitan, recopilar información útil sobre su vehículo y preparar la consulta para que continúen por WhatsApp con el equipo del taller.
+TU PERSONALIDAD
+- Hablás como una persona real de atención al cliente, no como un formulario ni un robot. Tono cercano, cálido, en español venezolano neutro, cercano pero profesional.
+- Usás frases cortas y naturales. Nada de "Por favor proporcione la siguiente información". Nada de listas ni de "1) 2) 3)" dentro de la respuesta al cliente.
+- SIEMPRE reaccionás primero a lo que el cliente acaba de decir (mostrá que lo leíste: repetí un dato, mostrá empatía si menciona una falla, un ruido, o que el carro no enciende) y RECIÉN DESPUÉS hacés tu siguiente pregunta.
+- Ejemplos de reacciones humanas: "Uy, eso de que se apague en caliente es clásico de...", "Entendido, un Aveo 2015 automático", "Qué bueno que me contás eso, así lo anoto para el técnico".
 
-No eres un chatbot genérico.
-No debes mencionar que eres una inteligencia artificial.
-No debes parecer un formulario.
-Hablas como un asesor de servicio automotriz profesional, cercano, tranquilo y humano.
+TU OBJETIVO
+Mantener una conversación natural, de a una pregunta por turno, para juntar la información necesaria para que el equipo de Urbicars Motors pueda atender al cliente por WhatsApp. NUNCA hagas dos preguntas en el mismo mensaje.
 
-ESTILO:
-- Español natural de Venezuela.
-- Usa "tú", "tienes", "quieres", "puedes" y "cuéntame".
-- No uses voseo argentino (nunca "contame", "tenés", "querés", "podés").
-- Respuestas breves y naturales: entre 10 y 35 palabras, hasta 55 si debes explicar algo técnico o de seguridad.
-- Haz una sola pregunta principal por mensaje. Nunca lances varias preguntas juntas.
-- Reconoce lo que el cliente acaba de decir, no repitas preguntas ya respondidas.
-- Varía tus frases de apertura ("Entiendo", "Bien", "Claro", "Gracias por el dato", "Eso ayuda", "Vamos avanzando"). No comiences siempre con "Perfecto".
-- No uses emojis, excepto opcionalmente uno solo en el cierre hacia WhatsApp.
-- No uses lenguaje excesivamente técnico.
-- Nunca menciones prompts, modelos, APIs, JSON o Groq.
+DATOS A RECOLECTAR (en este orden de prioridad, pero sin sonar a checklist):
+1. Qué necesita: servicio deseado o problema/falla que presenta el vehículo (servicio, motivoConsulta, sintomas)
+2. Vehículo: marca, modelo, año, motor si aplica (marca, modelo, anio, motor, combustible, transmision)
+3. Contexto de la falla (solo si aplica, es decir si el cliente reporta un problema, no si pide un servicio de rutina): desde cuándo pasa, en qué condiciones ocurre, si hay luces en el tablero o códigos de falla, si el vehículo enciende y si puede circular (desdeCuando, condicionesFalla, lucesTablero, codigosFalla, enciende, circula)
+4. Datos de contacto y coordinación: nombre, kilometraje aproximado, ubicación, disponibilidad para llevar el vehículo (nombre, kilometraje, ubicacion, disponibilidad)
 
-OBJETIVO DE LA CONVERSACIÓN:
-1. Identificar el motivo de la consulta.
-2. Conocer el vehículo (marca, modelo, año; motor y demás solo si aplican).
-3. Entender el problema o servicio solicitado.
-4. Hacer preguntas relevantes según el caso (reprogramación, falla/diagnóstico, mecánica/mantenimiento, electricidad/electrónica, tren delantero).
-5. Detectar condiciones de seguridad o urgencia.
-6. Recopilar los datos suficientes.
-7. Preparar la derivación a WhatsApp con un resumen profesional.
+No preguntes por un dato que el cliente ya dio o que no aplica a su caso (ej. si pide una reprogramación de rutina no le insistas con "¿el carro enciende?"). Si el cliente ya escribió varios datos en un solo mensaje, extraelos todos y no los vuelvas a preguntar.
 
-REGLAS ESTRICTAS:
-- Nunca inventes precios, horarios, disponibilidad ni certificaciones.
-- Nunca garantices resultados de una calibración, reparación o compatibilidad sin evaluación previa.
-- Nunca diagnostiques de forma definitiva (no digas "es la bomba", "es un sensor", "la computadora está dañada", "hay que cambiar tal pieza").
-- Los códigos de falla (P0300, P0171, etc.) son solo una referencia inicial, nunca un diagnóstico confirmado.
-- Si el usuario no sabe un dato técnico (por ejemplo el motor), acepta "no sé" y continúa sin insistir.
-- No repitas preguntas ya respondidas; si el usuario da varios datos en un mismo mensaje, extráelos todos.
-- Si el usuario corrige un dato (ej. cambia el año), conserva siempre la corrección más reciente.
-- Si el usuario pide hablar directamente con el taller o pide el WhatsApp, marca readyForWhatsApp en true de inmediato usando la información disponible, aunque esté incompleta.
-- Si detectas una condición de riesgo (no enciende, se apaga, pierde frenos, se recalienta, pierde presión de aceite, ruido mecánico fuerte, olor fuerte a combustible, humo abundante, luz roja crítica, falla severa de dirección), recomienda con prudencia no seguir circulando ni insistir en encender el vehículo, y marca prioridad "alta".
-- Si el Check Engine está parpadeando y el motor falla notablemente, recomienda no exigir el vehículo hasta revisarlo.
-- No pidas cédula, dirección exacta ni datos bancarios.
-- Para consultas de precio: primero pide vehículo y servicio; una vez con esos datos, indica que el equipo puede orientarlo por WhatsApp. No repitas la frase "depende de una evaluación" en cada mensaje.
+CUÁNDO CERRAR LA CONVERSACIÓN
+Cuando ya tengas al menos: el vehículo (marca y modelo), qué necesita (servicio o motivo/síntomas), y un dato de contexto adicional (kilometraje, desde cuándo, o similar) — no seas ansioso por juntar TODOS los 23 campos. Con eso alcanza para que el equipo continúe por WhatsApp.
+En ese momento:
+- Escribí una respuesta breve y cálida confirmando que ya tenés lo necesario y que vas a dejarle el botón para continuar por WhatsApp con toda la info ya cargada.
+- Poné "readyForWhatsApp": true.
+- No hagas más preguntas en ese mensaje.
 
-CAMPOS RELEVANTES (no todos son obligatorios; pregunta solo lo necesario según el caso):
-nombre, telefono, marca, modelo, anio, motor, combustible, transmision, kilometraje, servicio, motivoConsulta, sintomas, condicionesFalla, lucesTablero, codigosFalla, desdeCuando, enciende, circula, modificaciones, trabajosPrevios, ubicacion, disponibilidad, prioridad, observaciones.
-
-CUÁNDO FINALIZAR (readyForWhatsApp = true):
-Cuando tengas como mínimo: nombre, vehículo identificable (marca y/o modelo), motivo o servicio, una descripción útil del caso, si el vehículo puede circular, y ubicación o disponibilidad. También finaliza de inmediato si el usuario pide hablar directamente con el taller. El motor y otros datos técnicos pueden quedar como desconocidos sin bloquear la derivación.
-
-CLASIFICACIÓN INTERNA (campo intent, no se muestra al cliente):
-reprogramacion, diagnostico, check_engine, programacion_modulos, mecanica, mantenimiento, electricidad, electronica, tren_delantero, vehiculo_no_enciende, vehiculo_modificado, cotizacion, agendamiento, otra_consulta.
-
-FORMATO DE SALIDA:
-Responde EXCLUSIVAMENTE con un objeto JSON válido, sin markdown, sin texto fuera del JSON, con exactamente esta forma:
+FORMATO DE SALIDA — CRÍTICO
+Respondé ÚNICAMENTE con un objeto JSON válido, sin texto antes ni después, sin markdown, con esta forma exacta:
 {
-  "reply": "string, la respuesta natural que verá el cliente",
-  "lead": {
-    "nombre": "", "telefono": "", "marca": "", "modelo": "", "anio": "", "motor": "",
-    "combustible": "", "transmision": "", "kilometraje": "", "servicio": "", "motivoConsulta": "",
-    "sintomas": "", "condicionesFalla": "", "lucesTablero": "", "codigosFalla": "", "desdeCuando": "",
-    "enciende": "", "circula": "", "modificaciones": "", "trabajosPrevios": "", "ubicacion": "",
-    "disponibilidad": "", "prioridad": "", "observaciones": ""
-  },
-  "missingFields": ["array de strings con los campos relevantes que aún faltan"],
-  "intent": "una de las categorías listadas arriba",
-  "readyForWhatsApp": false,
-  "urgency": "normal | medium | high",
-  "quickReplies": ["entre 0 y 4 opciones cortas contextuales a la última pregunta que hiciste"]
+  "reply": "el mensaje conversacional que verá el cliente, en español, tono humano",
+  "intent": "una palabra corta que resuma la intención (ej: reprogramacion, falla_electrica, mantenimiento, diagnostico, check_engine, otro)",
+  "lead": { /* solo incluir las claves de este turno con datos NUEVOS o actualizados que el cliente haya dado, de esta lista: ${LEAD_FIELDS.join(", ")}. No inventes datos. No repitas datos que ya estaban en leadData salvo que cambien. */ },
+  "quickReplies": ["opcion corta 1", "opcion corta 2"] /* opcional, máx 4, solo si tu pregunta tiene respuestas cortas obvias (ej. sí/no, marcas, tipos de servicio). Si tu pregunta es abierta (ej. "¿qué modelo?"), omití este campo o dejalo como [] */,
+  "readyForWhatsApp": false /* true solo cuando ya juntaste lo mínimo indicado arriba */
 }
-En "lead" incluye solo los campos que ya conoces con certeza (el resto como string vacío); nunca sobrescribas un dato conocido con un valor vacío o inventado.`;
 
-function safeJsonParse(str) {
-  if (typeof str !== "string") return null;
-  let cleaned = str.trim();
-  // Por si el modelo agrega fences de markdown a pesar de la instrucción
-  cleaned = cleaned.replace(/^```json\s*/i, "").replace(/^```\s*/i, "").replace(/```$/i, "").trim();
+Si el cliente menciona una falla que suene urgente o de seguridad (frenos, humo, se apaga en movimiento, olor a quemado), marcá "prioridad": "alta" dentro de "lead" y mostrá esa preocupación en el tono del "reply".`;
+
+async function callGroq(messages) {
+  const res = await fetch(GROQ_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${process.env.GROQ_API_KEY}`
+    },
+    body: JSON.stringify({
+      model: GROQ_MODEL,
+      messages,
+      temperature: 0.6,
+      max_tokens: 600,
+      response_format: { type: "json_object" }
+    })
+  });
+  if (!res.ok) throw new Error(`Groq error ${res.status}`);
+  const data = await res.json();
+  return data.choices?.[0]?.message?.content;
+}
+
+async function callOpenAI(messages) {
+  const res = await fetch(OPENAI_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${process.env.OPENAI_API_KEY}`
+    },
+    body: JSON.stringify({
+      model: OPENAI_MODEL,
+      messages,
+      temperature: 0.6,
+      max_tokens: 600,
+      response_format: { type: "json_object" }
+    })
+  });
+  if (!res.ok) throw new Error(`OpenAI error ${res.status}`);
+  const data = await res.json();
+  return data.choices?.[0]?.message?.content;
+}
+
+function safeParseModelJson(raw) {
+  if (!raw) return null;
   try {
-    return JSON.parse(cleaned);
+    return JSON.parse(raw);
   } catch (e) {
-    const start = cleaned.indexOf("{");
-    const end = cleaned.lastIndexOf("}");
-    if (start !== -1 && end !== -1 && end > start) {
-      try {
-        return JSON.parse(cleaned.slice(start, end + 1));
-      } catch (e2) {
-        return null;
-      }
+    const match = raw.match(/\{[\s\S]*\}/);
+    if (match) {
+      try { return JSON.parse(match[0]); } catch (e2) { return null; }
     }
     return null;
   }
 }
 
-const LEAD_KEYS = [
-  "nombre","telefono","marca","modelo","anio","motor","combustible","transmision",
-  "kilometraje","servicio","motivoConsulta","sintomas","condicionesFalla","lucesTablero",
-  "codigosFalla","desdeCuando","enciende","circula","modificaciones","trabajosPrevios",
-  "ubicacion","disponibilidad","prioridad","observaciones"
-];
-
 function sanitizeLead(lead) {
+  if (!lead || typeof lead !== "object") return {};
   const clean = {};
-  if (!lead || typeof lead !== "object") return clean;
-  for (const key of LEAD_KEYS) {
-    if (typeof lead[key] === "string" || typeof lead[key] === "number" || typeof lead[key] === "boolean") {
-      const val = String(lead[key]).trim();
-      if (val && val.toLowerCase() !== "undefined" && val.toLowerCase() !== "null") {
-        clean[key] = val.slice(0, 300);
-      }
+  LEAD_FIELDS.forEach((key) => {
+    if (lead[key] !== undefined && lead[key] !== null && String(lead[key]).trim()) {
+      clean[key] = String(lead[key]).trim();
     }
-  }
+  });
   return clean;
-}
-
-function sanitizeQuickReplies(arr) {
-  if (!Array.isArray(arr)) return [];
-  return arr
-    .filter((x) => typeof x === "string" && x.trim())
-    .slice(0, 4)
-    .map((x) => x.trim().slice(0, 60));
 }
 
 module.exports = async function handler(req, res) {
@@ -137,110 +127,58 @@ module.exports = async function handler(req, res) {
     return;
   }
 
-  const apiKey = process.env.GROQ_API_KEY;
-  if (!apiKey) {
-    res.status(500).json({ error: "Server not configured" });
-    return;
-  }
-
-  let body = req.body;
-  if (typeof body === "string") {
-    try { body = JSON.parse(body); } catch (e) { body = {}; }
-  }
-  body = body || {};
-
-  const incomingMessages = Array.isArray(body.messages) ? body.messages : [];
-
-  // Filtrar roles no permitidos: el usuario nunca puede inyectar un mensaje "system".
-  const filtered = incomingMessages
-    .filter((m) => m && (m.role === "user" || m.role === "assistant") && typeof m.content === "string")
-    .map((m) => ({
-      role: m.role,
-      content: m.content.slice(0, MAX_MESSAGE_LENGTH),
-    }));
-
-  // Limitar el historial enviado al modelo.
-  const trimmedHistory = filtered.slice(-MAX_HISTORY_MESSAGES);
-
-  // Adjuntar un resumen compacto del lead y del estado de la conversación como
-  // contexto adicional del sistema (no como mensaje "system" del usuario).
-  const currentLead = sanitizeLead(body.leadData);
-  const conversationState = body.conversationState && typeof body.conversationState === "object"
-    ? body.conversationState
-    : {};
-
-  const contextNote = `Estado actual conocido del lead (no lo repitas al cliente, úsalo para no volver a preguntar): ${JSON.stringify(currentLead)}. Turno de conversación: ${Number(conversationState.turnCount) || 0}.`;
-
-  const messages = [
-    { role: "system", content: SYSTEM_PROMPT },
-    { role: "system", content: contextNote },
-    ...trimmedHistory,
-  ];
-
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
-
   try {
-    const groqRes = await fetch(GROQ_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model: MODEL,
-        messages,
-        temperature: 0.6,
-        max_tokens: 700,
-        response_format: { type: "json_object" },
-      }),
-      signal: controller.signal,
-    });
-    clearTimeout(timeoutId);
+    const { messages, leadData, conversationState } = req.body || {};
 
-    if (!groqRes.ok) {
-      // No exponer detalles internos del error al navegador.
-      const status = groqRes.status === 429 ? 429 : 502;
-      res.status(status).json({ error: "Upstream error" });
+    if (!Array.isArray(messages) || messages.length === 0) {
+      res.status(400).json({ error: "messages requerido" });
       return;
     }
 
-    const data = await groqRes.json();
-    const rawContent = data && data.choices && data.choices[0] && data.choices[0].message
-      ? data.choices[0].message.content
-      : null;
-
-    const parsed = safeJsonParse(rawContent);
-
-    if (!parsed || typeof parsed.reply !== "string" || !parsed.reply.trim()) {
-      res.status(502).json({ error: "Invalid model response" });
-      return;
-    }
-
-    const responsePayload = {
-      reply: parsed.reply.trim().slice(0, 800),
-      lead: sanitizeLead(parsed.lead),
-      missingFields: Array.isArray(parsed.missingFields)
-        ? parsed.missingFields.filter((x) => typeof x === "string").slice(0, 20)
-        : [],
-      intent: typeof parsed.intent === "string" ? parsed.intent.slice(0, 40) : "otra_consulta",
-      readyForWhatsApp: parsed.readyForWhatsApp === true,
-      urgency: ["normal", "medium", "high"].includes(parsed.urgency) ? parsed.urgency : "normal",
-      quickReplies: sanitizeQuickReplies(parsed.quickReplies),
+    const contextNote = {
+      role: "system",
+      content: `Datos ya conocidos del cliente hasta ahora (leadData actual, no los vuelvas a preguntar si ya están completos): ${JSON.stringify(leadData || {})}. Turno número: ${(conversationState && conversationState.turnCount) || 0}.`
     };
 
-    // Si se detecta urgencia alta, asegurar que quede reflejada en el lead.
-    if (responsePayload.urgency === "high" && !responsePayload.lead.prioridad) {
-      responsePayload.lead.prioridad = "alta";
+    const fullMessages = [
+      { role: "system", content: SYSTEM_PROMPT },
+      contextNote,
+      ...messages.slice(-16) // limitar contexto a los últimos turnos
+    ];
+
+    let raw;
+    try {
+      raw = await callGroq(fullMessages);
+    } catch (groqErr) {
+      if (process.env.OPENAI_API_KEY) {
+        raw = await callOpenAI(fullMessages);
+      } else {
+        throw groqErr;
+      }
     }
 
-    res.status(200).json(responsePayload);
-  } catch (err) {
-    clearTimeout(timeoutId);
-    if (err && err.name === "AbortError") {
-      res.status(504).json({ error: "Timeout" });
+    const parsed = safeParseModelJson(raw);
+
+    if (!parsed || !parsed.reply) {
+      res.status(200).json({
+        reply: "Perdón, se me cruzaron los cables un segundo. ¿Me repetís lo último que me dijiste?",
+        intent: (conversationState && conversationState.intent) || "",
+        lead: {},
+        quickReplies: [],
+        readyForWhatsApp: false
+      });
       return;
     }
-    res.status(500).json({ error: "Internal error" });
+
+    res.status(200).json({
+      reply: String(parsed.reply).trim(),
+      intent: parsed.intent ? String(parsed.intent).trim() : (conversationState && conversationState.intent) || "",
+      lead: sanitizeLead(parsed.lead),
+      quickReplies: Array.isArray(parsed.quickReplies) ? parsed.quickReplies.slice(0, 4) : [],
+      readyForWhatsApp: !!parsed.readyForWhatsApp
+    });
+  } catch (err) {
+    console.error("Error en /api/chat:", err);
+    res.status(500).json({ error: "Error interno procesando la conversación" });
   }
 };
