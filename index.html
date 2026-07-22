@@ -379,14 +379,14 @@
   }
   .hero-badge{
     font-family:var(--font-mono);
-    font-size:11px;letter-spacing:.06em;
+    font-size:9.5px;letter-spacing:.05em;
     color:var(--muted);
     border:1px solid var(--line);
-    padding:6px 12px;border-radius:2px;
+    padding:4px 9px;border-radius:2px;
     background:rgba(10,13,18,.5);
-    display:flex;align-items:center;gap:6px;
+    display:flex;align-items:center;gap:5px;
   }
-  .hero-badge::before{content:"";width:5px;height:5px;background:var(--neon);border-radius:50%;box-shadow:0 0 8px var(--neon);}
+  .hero-badge::before{content:"";width:4px;height:4px;background:var(--neon);border-radius:50%;box-shadow:0 0 6px var(--neon);}
   .hero h1{
     font-size:clamp(34px, 6.2vw, 74px);
     line-height:1.03;
@@ -837,6 +837,30 @@
   }
   .advisor-fab:hover + .advisor-fab-label{opacity:1;}
 
+  .advisor-nudge{
+    position:fixed;bottom:100px;right:24px;z-index:81;
+    max-width:220px;
+    background:var(--panel);border:1px solid var(--blue);
+    border-radius:16px 16px 4px 16px;padding:13px 30px 13px 16px;
+    font-family:var(--font-mono);font-size:12.5px;line-height:1.5;color:var(--white);
+    box-shadow:0 20px 50px -15px rgba(47,111,255,.5);
+    opacity:0;visibility:hidden;transform:translateY(10px) scale(.94);
+    pointer-events:none;cursor:pointer;
+    transition:opacity .45s cubic-bezier(.16,1,.3,1), transform .45s cubic-bezier(.16,1,.3,1), visibility .45s;
+  }
+  .advisor-nudge.show{opacity:1;visibility:visible;transform:translateY(0) scale(1);pointer-events:auto;}
+  .advisor-nudge-close{
+    position:absolute;top:6px;right:7px;width:20px;height:20px;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--muted);border-radius:50%;font-size:11px;
+    transition:color .2s ease;
+  }
+  .advisor-nudge-close:hover{color:var(--white);}
+
+  @media (max-width:640px){
+    .advisor-nudge{right:16px;bottom:90px;max-width:200px;}
+  }
+
   .advisor-panel{
     position:fixed;bottom:24px;right:24px;z-index:85;
     width:380px;max-width:calc(100vw - 32px);
@@ -1257,7 +1281,7 @@
 <!-- ============ HERO ============ -->
 <section class="hero" id="inicio">
   <div class="hero-media">
-    <video id="heroVideo" autoplay muted loop playsinline preload="none"
+    <video id="heroVideo" autoplay muted loop playsinline preload="auto"
       poster="https://res.cloudinary.com/dgp7uhps3/video/upload/so_0,f_jpg,q_auto/v1784667861/ReactNativeBlobUtilTmp_c6h6fgamyn82pi2o619r75_zxjy96.jpg">
       <source src="https://res.cloudinary.com/dgp7uhps3/video/upload/f_webm,q_auto/v1784667861/ReactNativeBlobUtilTmp_c6h6fgamyn82pi2o619r75_zxjy96.webm" type="video/webm">
       <source src="https://res.cloudinary.com/dgp7uhps3/video/upload/f_mp4,q_auto/v1784667861/ReactNativeBlobUtilTmp_c6h6fgamyn82pi2o619r75_zxjy96.mp4" type="video/mp4">
@@ -1794,6 +1818,10 @@
   <span class="fab-dot"></span>
 </button>
 <div class="advisor-fab-label">Consultar ahora</div>
+<div class="advisor-nudge" id="advisorNudge" role="status">
+  <button class="advisor-nudge-close" id="advisorNudgeClose" aria-label="Cerrar aviso">✕</button>
+  <span>¡Hola! 👋 Estoy acá para ayudarte con tu vehículo, cuando quieras.</span>
+</div>
 
 <div class="advisor-panel" id="advisorPanel">
   <div class="advisor-head">
@@ -1848,13 +1876,20 @@ window.addEventListener('scroll', ()=>{
 
 const heroVideo = document.getElementById('heroVideo');
 function tryPlayHero(){
-  heroVideo.preload = 'auto';
   const p = heroVideo.play();
-  if(p !== undefined){ p.catch(()=>{
-    document.addEventListener('touchstart', ()=>heroVideo.play().catch(()=>{}), {once:true});
-    document.addEventListener('click', ()=>heroVideo.play().catch(()=>{}), {once:true});
-  }); }
+  if(p !== undefined){
+    p.catch(()=>{
+      // Reintenta apenas el navegador tenga datos suficientes, sin esperar un toque
+      heroVideo.addEventListener('canplay', ()=>heroVideo.play().catch(()=>{}), {once:true});
+      // Red de seguridad para navegadores muy restrictivos
+      document.addEventListener('touchstart', ()=>heroVideo.play().catch(()=>{}), {once:true});
+      document.addEventListener('click', ()=>heroVideo.play().catch(()=>{}), {once:true});
+    });
+  }
 }
+// Aseguramos el loop incluso si algún navegador dispara 'ended' antes del loop nativo
+heroVideo.addEventListener('ended', ()=>{ heroVideo.currentTime = 0; heroVideo.play().catch(()=>{}); });
+tryPlayHero();
 if('IntersectionObserver' in window){
   const io = new IntersectionObserver((entries)=>{
     entries.forEach(e=>{ if(e.isIntersecting) tryPlayHero(); });
@@ -2082,6 +2117,8 @@ const advisorRestartRow = document.getElementById('advisorRestartRow');
 const advisorRestartBtn2 = document.getElementById('advisorRestartBtn2');
 const advisorDirectWa = document.getElementById('advisorDirectWa');
 const advisorInputRow = document.getElementById('advisorInputRow');
+const advisorNudge = document.getElementById('advisorNudge');
+const advisorNudgeClose = document.getElementById('advisorNudgeClose');
 
 const STORAGE_KEY = 'urbicars_advisor_v1';
 const STORAGE_MAX_AGE_MS = 24 * 60 * 60 * 1000; // 24 horas
@@ -2162,6 +2199,7 @@ function clearState(){
 
 /* ---------- Apertura / cierre del panel ---------- */
 function openAdvisor(intent){
+  hideAdvisorNudge();
   advisorPanel.classList.add('open');
   advisorFab.style.display = 'none';
   if(uiHistory.length === 0){
@@ -2198,6 +2236,30 @@ function closeAdvisor(){
   advisorPanel.classList.remove('open');
   advisorFab.style.display = 'flex';
 }
+
+/* ---------- Cartelito ("estoy para ayudarte") a los 45s ---------- */
+const NUDGE_DISMISSED_KEY = 'urbicars_nudge_dismissed';
+function hideAdvisorNudge(){
+  advisorNudge.classList.remove('show');
+}
+function showAdvisorNudgeIfIdle(){
+  if(uiHistory.length > 0) return; // ya interactuó con el asesor
+  if(advisorPanel.classList.contains('open')) return;
+  try{ if(sessionStorage.getItem(NUDGE_DISMISSED_KEY)) return; }catch(e){}
+  advisorNudge.classList.add('show');
+}
+setTimeout(showAdvisorNudgeIfIdle, 45000);
+
+advisorNudgeClose.addEventListener('click', (e)=>{
+  e.stopPropagation();
+  hideAdvisorNudge();
+  try{ sessionStorage.setItem(NUDGE_DISMISSED_KEY, '1'); }catch(e){}
+});
+advisorNudge.addEventListener('click', ()=>{
+  hideAdvisorNudge();
+  try{ sessionStorage.setItem(NUDGE_DISMISSED_KEY, '1'); }catch(e){}
+  openAdvisor();
+});
 
 function addDayMark(){
   if(advisorBody.querySelector('.advisor-daymark')) return;
