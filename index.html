@@ -168,28 +168,28 @@
   /* ---- Premium burger ---- */
   .burger{
     position:relative;
-    display:flex;width:46px;height:46px;align-items:center;justify-content:center;
+    display:flex;width:36px;height:36px;align-items:center;justify-content:center;
     border:1px solid var(--line);border-radius:3px;flex-shrink:0;
     background:rgba(255,255,255,.02);
     transition:border-color .3s ease, background .3s ease;
     z-index:101;
   }
   .burger:hover{border-color:var(--neon);background:rgba(0,229,255,.05);}
-  .burger-lines{position:relative;width:18px;height:12px;}
+  .burger-lines{position:relative;width:14px;height:10px;}
   .burger-lines div{
-    position:absolute;left:0;width:18px;height:1.5px;background:var(--white);
+    position:absolute;left:0;width:14px;height:1.3px;background:var(--white);
     transition:transform .38s cubic-bezier(.65,0,.35,1), opacity .25s ease, width .3s ease, background .3s ease;
   }
   .burger-lines div:nth-child(1){top:0;}
-  .burger-lines div:nth-child(2){top:5px;width:12px;left:6px;}
-  .burger-lines div:nth-child(3){top:10px;}
+  .burger-lines div:nth-child(2){top:4px;width:9px;left:5px;}
+  .burger-lines div:nth-child(3){top:8px;}
   .burger:hover .burger-lines div{background:var(--neon);}
-  .burger:hover .burger-lines div:nth-child(2){width:18px;left:0;}
+  .burger:hover .burger-lines div:nth-child(2){width:14px;left:0;}
   .burger.active{border-color:var(--neon);background:rgba(0,229,255,.06);}
   .burger.active .burger-lines div{background:var(--neon);}
-  .burger.active .burger-lines div:nth-child(1){top:5px;transform:rotate(45deg);}
+  .burger.active .burger-lines div:nth-child(1){top:4px;transform:rotate(45deg);}
   .burger.active .burger-lines div:nth-child(2){opacity:0;transform:translateX(6px);}
-  .burger.active .burger-lines div:nth-child(3){top:5px;transform:rotate(-45deg);}
+  .burger.active .burger-lines div:nth-child(3){top:4px;transform:rotate(-45deg);}
 
   /* ---- Menu overlay (backdrop) ---- */
   .menu-overlay{
@@ -265,6 +265,56 @@
   .mobile-menu-contact a:hover{color:var(--neon);}
   .mobile-menu-cta{margin-top:auto;padding-top:24px;display:flex;flex-direction:column;gap:12px;}
   .mobile-menu-cta .btn{justify-content:center;width:100%;}
+
+  /* ===== ABOUT MODAL (Quiénes Somos — pantalla completa) ===== */
+  .about-modal{
+    position:fixed;inset:0;z-index:200;
+    background:var(--graphite);
+    opacity:0;visibility:hidden;
+    transform:translateY(16px);
+    transition:opacity .4s cubic-bezier(.16,1,.3,1), visibility .4s, transform .4s cubic-bezier(.16,1,.3,1);
+    overflow-y:auto;
+  }
+  .about-modal.open{opacity:1;visibility:visible;transform:translateY(0);}
+  .about-modal::before{
+    content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:radial-gradient(circle at 15% 0%, rgba(47,111,255,.10), transparent 55%),
+               radial-gradient(circle at 85% 100%, rgba(0,229,255,.08), transparent 55%);
+  }
+  .about-modal-close{
+    position:fixed;top:20px;right:20px;z-index:2;
+    width:44px;height:44px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    border:1px solid var(--line);background:var(--panel);color:var(--white);
+    font-size:18px;transition:border-color .25s ease, transform .25s ease;
+  }
+  .about-modal-close:hover{border-color:var(--neon);transform:rotate(90deg);}
+  .about-modal-inner{
+    position:relative;z-index:1;
+    max-width:880px;margin:0 auto;
+    padding:100px 24px 80px;
+  }
+  .about-modal .eyebrow{font-family:var(--font-mono);font-size:12px;color:var(--neon);letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px;}
+  .about-modal h2{font-size:clamp(28px,5vw,44px);line-height:1.1;margin-bottom:24px;color:var(--white);}
+  .about-modal-media{width:100%;border-radius:10px;overflow:hidden;margin-bottom:36px;border:1px solid var(--line);}
+  .about-modal-media img{width:100%;height:auto;display:block;}
+  .about-modal-body p{color:var(--muted);font-size:15.5px;line-height:1.75;margin-bottom:20px;}
+  .about-modal-body h3{font-family:var(--font-display);font-size:19px;color:var(--white);margin:34px 0 14px;}
+  .about-modal-stats{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
+    margin:34px 0;padding:24px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  }
+  .about-modal-stat b{display:block;font-family:var(--font-display);font-size:26px;color:var(--white);}
+  .about-modal-stat span{font-family:var(--font-mono);font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
+  .about-modal-points{display:flex;flex-direction:column;gap:14px;margin:22px 0 30px;}
+  .about-modal-point{display:flex;gap:14px;align-items:flex-start;}
+  .about-modal-point .num{font-family:var(--font-mono);font-size:12px;color:var(--neon);flex-shrink:0;padding-top:2px;}
+  .about-modal-point p{margin:0;color:var(--muted);font-size:14.5px;line-height:1.6;}
+  .about-modal-ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:36px;}
+  @media (max-width:600px){
+    .about-modal-inner{padding:88px 18px 60px;}
+    .about-modal-stats{grid-template-columns:1fr;gap:18px;text-align:left;}
+  }
 
   /* ===== HERO ===== */
   .hero{
@@ -788,9 +838,16 @@
   .advisor-head h4{font-size:14px;color:var(--white);}
   .advisor-head .status{font-family:var(--font-mono);font-size:10.5px;color:#3ddc84;display:flex;align-items:center;gap:5px;}
   .advisor-head .status::before{content:"";width:6px;height:6px;background:#3ddc84;border-radius:50%;}
+  .advisor-head .who-text{display:flex;flex-direction:column;gap:3px;}
+  .advisor-head .progress-line{font-family:var(--font-mono);font-size:10px;color:var(--muted);letter-spacing:.02em;transition:opacity .3s ease;}
+  .advisor-head-actions{display:flex;align-items:center;gap:8px;}
+  .advisor-reset{width:28px;height:28px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:50%;color:var(--muted);font-size:13px;}
+  .advisor-reset:hover{color:var(--white);border-color:var(--blue);}
   .advisor-close{width:28px;height:28px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:50%;color:var(--muted);}
   .advisor-body{flex:1;overflow-y:auto;padding:16px 18px;display:flex;flex-direction:column;gap:12px;}
-  .msg{max-width:85%;padding:11px 14px;border-radius:10px;font-size:14px;line-height:1.45;}
+  .advisor-daymark{align-self:center;font-family:var(--font-mono);font-size:10.5px;color:var(--muted);background:var(--panel);padding:4px 12px;border-radius:12px;margin-bottom:4px;}
+  .msg{max-width:85%;padding:11px 14px;border-radius:10px;font-size:14px;line-height:1.45;animation:msg-in .25s cubic-bezier(.16,1,.3,1);white-space:pre-wrap;}
+  @keyframes msg-in{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
   .msg.bot{background:var(--panel);color:var(--white);align-self:flex-start;border-bottom-left-radius:3px;}
   .msg.user{background:var(--blue);color:var(--white);align-self:flex-end;border-bottom-right-radius:3px;}
   .quick-replies{display:flex;flex-wrap:wrap;gap:8px;align-self:flex-start;max-width:100%;}
@@ -804,17 +861,27 @@
   .typing span:nth-child(2){animation-delay:.15s;}
   .typing span:nth-child(3){animation-delay:.3s;}
   @keyframes typing-bounce{0%,60%,100%{transform:translateY(0);opacity:.5;}30%{transform:translateY(-4px);opacity:1;}}
+  .advisor-error{align-self:flex-start;max-width:90%;background:rgba(255,90,90,.08);border:1px solid rgba(255,90,90,.35);border-radius:10px;padding:11px 14px;font-size:13px;color:var(--white);line-height:1.45;}
+  .advisor-error-actions{display:flex;gap:8px;margin-top:9px;}
+  .advisor-error-actions button{font-size:12.5px;padding:7px 12px;border-radius:16px;border:1px solid var(--line);color:var(--white);}
+  .advisor-error-actions .retry-btn{border-color:var(--blue);background:rgba(47,111,255,.12);}
+  .advisor-error-actions .wa-btn{border-color:#25D366;background:rgba(37,211,102,.1);}
   .advisor-input-row{
-    border-top:1px solid var(--line);padding:12px;display:flex;gap:8px;background:var(--panel);
+    border-top:1px solid var(--line);padding:12px;display:flex;gap:8px;background:var(--panel);align-items:flex-end;
   }
-  .advisor-input-row input{
-    flex:1;background:var(--graphite);border:1px solid var(--line);border-radius:20px;
-    padding:11px 16px;color:var(--white);font-size:16px;
+  .advisor-input-row textarea{
+    flex:1;background:var(--graphite);border:1px solid var(--line);border-radius:18px;
+    padding:11px 16px;color:var(--white);font-size:16px;font-family:inherit;resize:none;
+    max-height:76px;line-height:1.4;
   }
-  .advisor-input-row input:focus{outline:none;border-color:var(--blue);}
-  .advisor-send{width:40px;height:40px;background:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .advisor-input-row textarea:focus{outline:none;border-color:var(--blue);}
+  .advisor-send{width:40px;height:40px;background:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .2s;}
+  .advisor-send:disabled{opacity:.45;}
   .advisor-wa-cta{margin:6px 18px 14px;}
   .advisor-wa-cta .btn{width:100%;justify-content:center;}
+  .advisor-restart-row{padding:0 18px 10px;text-align:center;}
+  .advisor-restart-row button{font-family:var(--font-mono);font-size:11px;color:var(--muted);text-decoration:underline;}
+  .advisor-restart-row button:hover{color:var(--white);}
 
   /* ===== RESPONSIVE ===== */
   @media (max-width:960px){
@@ -874,7 +941,7 @@
 <div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Menú de navegación">
   <div class="mobile-menu-links">
     <a href="#inicio" class="mlink"><span class="mlink-index">01</span>Inicio<span class="mlink-arrow">→</span></a>
-    <a href="#quienes-somos" class="mlink"><span class="mlink-index">02</span>Quiénes Somos<span class="mlink-arrow">→</span></a>
+    <a href="#quienes-somos" class="mlink" onclick="event.preventDefault(); closeMenu(); openAboutModal();"><span class="mlink-index">02</span>Quiénes Somos<span class="mlink-arrow">→</span></a>
     <a href="#metodologia" class="mlink"><span class="mlink-index">03</span>Metodología<span class="mlink-arrow">→</span></a>
     <a href="#servicios" class="mlink"><span class="mlink-index">04</span>Servicios<span class="mlink-arrow">→</span></a>
     <a href="#tecnologia" class="mlink"><span class="mlink-index">05</span>Tecnología<span class="mlink-arrow">→</span></a>
@@ -891,6 +958,50 @@
   <div class="mobile-menu-cta">
     <button class="btn btn-primary" onclick="openAdvisor();closeMenu()">Diagnosticar mi vehículo</button>
     <a class="btn btn-whatsapp" id="waMenuLink" target="_blank" rel="noopener">💬 Hablar por WhatsApp</a>
+  </div>
+</div>
+
+<!-- ============ QUIÉNES SOMOS — MODAL PANTALLA COMPLETA ============ -->
+<div class="about-modal" id="aboutModal" role="dialog" aria-modal="true" aria-label="Quiénes somos">
+  <button class="about-modal-close" id="aboutModalClose" aria-label="Cerrar">✕</button>
+  <div class="about-modal-inner">
+    <div class="eyebrow">Quiénes somos</div>
+    <h2>El taller construido alrededor del diagnóstico, no de la suposición</h2>
+
+    <div class="about-modal-media">
+      <img src="https://res.cloudinary.com/dgp7uhps3/image/upload/f_auto,q_auto,w_1200/v1784677311/IMG_9037_uxlvii.jpg" alt="Equipo de Urbicars Motors trabajando en el taller">
+    </div>
+
+    <div class="about-modal-body">
+      <p>Urbicars Motors nace en Maracay, Aragua, como un centro pensado para hacer una sola cosa muy bien: entender qué le pasa realmente a un vehículo antes de tocarlo. No trabajamos por ensayo y error. Cada intervención parte de datos reales, obtenidos con herramientas profesionales de diagnóstico y programación.</p>
+      <p>Nos especializamos en muscle cars, vehículos americanos y unidades modernas con electrónica avanzada, pero recibimos vehículos de todas las marcas. Esa base técnica —diagnóstico, programación y calibración— es la misma para cualquier caso que entra al taller.</p>
+
+      <div class="about-modal-stats">
+        <div class="about-modal-stat"><b>HP Tuners</b><span>Plataforma de programación</span></div>
+        <div class="about-modal-stat"><b>Diagzone · MDI</b><span>Diagnóstico profesional</span></div>
+        <div class="about-modal-stat"><b>100%</b><span>Basado en evidencia electrónica</span></div>
+      </div>
+
+      <h3>Cómo pensamos el trabajo</h3>
+      <p>Antes de recomendar una reparación, un cambio de pieza o una reprogramación, revisamos los parámetros y el comportamiento real del vehículo. Un código de falla es un punto de partida, no una conclusión. Esa disciplina es la que nos diferencia: preferimos tomarnos el tiempo de confirmar antes que adivinar.</p>
+
+      <h3>Lo que nos guía</h3>
+      <div class="about-modal-points">
+        <div class="about-modal-point"><span class="num">01</span><p><strong>Rigor técnico en cada diagnóstico.</strong> Usamos los datos del vehículo, no suposiciones, para decidir el siguiente paso.</p></div>
+        <div class="about-modal-point"><span class="num">02</span><p><strong>Herramientas profesionales de programación.</strong> Trabajamos con equipos y software de nivel profesional para calibraciones seguras y trazables.</p></div>
+        <div class="about-modal-point"><span class="num">03</span><p><strong>Enfoque en vehículos americanos y de alto rendimiento.</strong> Conocemos a fondo las particularidades de estos vehículos, sin dejar de atender unidades modernas de cualquier marca.</p></div>
+        <div class="about-modal-point"><span class="num">04</span><p><strong>Atención directa y personalizada.</strong> El cliente habla con quien realmente trabaja su vehículo, sin intermediarios ni respuestas genéricas.</p></div>
+        <div class="about-modal-point"><span class="num">05</span><p><strong>Transparencia antes de intervenir.</strong> No prometemos resultados, precios ni plazos sin haber evaluado el vehículo primero.</p></div>
+      </div>
+
+      <h3>Dónde estamos</h3>
+      <p>Operamos desde Maracay, Aragua, Venezuela, atendiendo tanto a clientes locales como a quienes coordinan traslado desde otras zonas del país para una evaluación puntual.</p>
+
+      <div class="about-modal-ctas">
+        <button class="btn btn-primary" onclick="closeAboutModal();openAdvisor();">Diagnosticar mi vehículo</button>
+        <a class="btn btn-ghost" href="https://www.instagram.com/urbicarsmotors" target="_blank" rel="noopener">📸 Conocer el taller en Instagram</a>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1222,9 +1333,6 @@
         <div class="info"><span class="type">HP Tuners</span><h4>Chevrolet Captiva</h4></div>
       </div>
     </div>
-    <p style="font-family:var(--font-mono);font-size:12px;color:var(--muted-2);margin-top:24px;">
-      Galería configurada para actualizarse fácilmente: cada imagen se referencia como un public_id de Cloudinary con su categoría de filtro.
-    </p>
   </div>
 </section>
 
@@ -1395,17 +1503,30 @@
   <div class="advisor-head">
     <div class="who">
       <div class="avatar"><img src="https://res.cloudinary.com/dgp7uhps3/image/upload/f_auto,q_auto,w_64,h_64,c_fill/v1784668104/IMG_9013_lnm7hj_wqhwqn.png" alt="Urbicars Motors" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
-      <div><h4>Asesor Urbicars</h4><span class="status">En línea</span></div>
+      <div class="who-text">
+        <h4>Asesor Urbicars</h4>
+        <span class="status">Asesor digital</span>
+        <span class="progress-line" id="advisorProgress">Conociendo tu consulta</span>
+      </div>
     </div>
-    <button class="advisor-close" onclick="closeAdvisor()">✕</button>
+    <div class="advisor-head-actions">
+      <button class="advisor-reset" id="advisorResetBtn" aria-label="Reiniciar consulta" title="Reiniciar consulta">↺</button>
+      <button class="advisor-close" onclick="closeAdvisor()">✕</button>
+    </div>
   </div>
   <div class="advisor-body" id="advisorBody"></div>
   <div class="advisor-wa-cta" id="advisorWaCta" style="display:none;">
     <a class="btn btn-whatsapp" id="advisorWaBtn" target="_blank" rel="noopener">💬 Enviar consulta a Urbicars Motors</a>
   </div>
+  <div class="advisor-restart-row" id="advisorRestartRow" style="display:none;">
+    <button id="advisorRestartBtn2">Iniciar una nueva consulta</button>
+  </div>
   <div class="advisor-input-row" id="advisorInputRow">
-    <input type="text" id="advisorInput" placeholder="Escribe tu respuesta..." autocomplete="off">
+    <textarea id="advisorInput" placeholder="Escribe tu respuesta..." autocomplete="off" rows="1"></textarea>
     <button class="advisor-send" id="advisorSend" aria-label="Enviar">➤</button>
+  </div>
+  <div class="advisor-restart-row" style="padding-top:0;">
+    <a href="#" id="advisorDirectWa" style="font-family:var(--font-mono);font-size:11px;color:var(--muted);text-decoration:underline;">Ir directo a WhatsApp</a>
   </div>
 </div>
 
@@ -1470,6 +1591,23 @@ burgerBtn.addEventListener('click', ()=> burgerBtn.classList.contains('active') 
 menuOverlay.addEventListener('click', closeMenu);
 mobileMenu.querySelectorAll('a.mlink').forEach(a=> a.addEventListener('click', closeMenu));
 document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeMenu(); });
+
+/* =========================================================
+   MODAL "QUIÉNES SOMOS" — pantalla completa
+   ========================================================= */
+const aboutModal = document.getElementById('aboutModal');
+const aboutModalClose = document.getElementById('aboutModalClose');
+
+function openAboutModal(){
+  aboutModal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeAboutModal(){
+  aboutModal.classList.remove('open');
+  if(!mobileMenu.classList.contains('open')){ document.body.style.overflow = ''; }
+}
+aboutModalClose.addEventListener('click', closeAboutModal);
+document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape' && aboutModal.classList.contains('open')) closeAboutModal(); });
 
 /* =========================================================
    WHATSAPP LINKS (mensaje precargado)
@@ -1551,25 +1689,114 @@ const advisorInput = document.getElementById('advisorInput');
 const advisorSend = document.getElementById('advisorSend');
 const advisorWaCta = document.getElementById('advisorWaCta');
 const advisorWaBtn = document.getElementById('advisorWaBtn');
+const advisorProgress = document.getElementById('advisorProgress');
+const advisorResetBtn = document.getElementById('advisorResetBtn');
+const advisorRestartRow = document.getElementById('advisorRestartRow');
+const advisorRestartBtn2 = document.getElementById('advisorRestartBtn2');
+const advisorDirectWa = document.getElementById('advisorDirectWa');
+const advisorInputRow = document.getElementById('advisorInputRow');
 
-// Historial para mostrar en pantalla: {role:'bot'|'user', text}
-// Historial para mandarle a la API: {role:'assistant'|'user', content}
+const STORAGE_KEY = 'urbicars_advisor_v1';
+const STORAGE_MAX_AGE_MS = 24 * 60 * 60 * 1000; // 24 horas
+const API_TIMEOUT_MS = 18000;
+
+const LEAD_TEMPLATE = {
+  nombre:'', telefono:'', marca:'', modelo:'', anio:'', motor:'', combustible:'',
+  transmision:'', kilometraje:'', servicio:'', motivoConsulta:'', sintomas:'',
+  condicionesFalla:'', lucesTablero:'', codigosFalla:'', desdeCuando:'', enciende:'',
+  circula:'', modificaciones:'', trabajosPrevios:'', ubicacion:'', disponibilidad:'',
+  prioridad:'', observaciones:''
+};
+
 let uiHistory = [];
 let apiMessages = [];
-let leadData = { nombre:'', marca:'', modelo:'', anio:'', motor:'', servicio:'', sintomas:'', luces:'', circula:'', modificaciones:'', ubicacion:'', horario:'' };
+let leadData = { ...LEAD_TEMPLATE };
+let conversationState = { intent:'', askedFields:[], turnCount:0 };
 let advisorBusy = false;
 let leadSent = false;
+let startedAt = null;
+let lastUserMessage = '';
 
+const PROGRESS_LABELS = {
+  start: 'Conociendo tu consulta',
+  symptoms: 'Revisando los síntomas',
+  vehicle: 'Completando datos del vehículo',
+  summary: 'Preparando el resumen',
+  ready: 'Listo para continuar'
+};
+
+function setProgress(stage){
+  advisorProgress.textContent = PROGRESS_LABELS[stage] || PROGRESS_LABELS.start;
+}
+
+function updateProgressFromState(){
+  if(leadSent){ setProgress('ready'); return; }
+  const d = leadData;
+  const hasVehicle = d.marca || d.modelo;
+  const hasSymptomInfo = d.sintomas || d.condicionesFalla || d.codigosFalla || d.lucesTablero;
+  if(conversationState.turnCount === 0){ setProgress('start'); return; }
+  if(hasVehicle && (d.servicio || d.motivoConsulta) && (hasSymptomInfo || d.kilometraje)){ setProgress('summary'); return; }
+  if(hasSymptomInfo){ setProgress('symptoms'); return; }
+  if(hasVehicle){ setProgress('vehicle'); return; }
+  setProgress('start');
+}
+
+/* ---------- Persistencia local (24 h) ---------- */
+function saveState(){
+  try{
+    const payload = { uiHistory, apiMessages, leadData, conversationState, leadSent, startedAt: startedAt || Date.now() };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+  }catch(e){ /* localStorage no disponible: continuar sin persistencia */ }
+}
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return false;
+    const payload = JSON.parse(raw);
+    if(!payload || !payload.startedAt) return false;
+    if(Date.now() - payload.startedAt > STORAGE_MAX_AGE_MS){
+      localStorage.removeItem(STORAGE_KEY);
+      return false;
+    }
+    uiHistory = payload.uiHistory || [];
+    apiMessages = payload.apiMessages || [];
+    leadData = { ...LEAD_TEMPLATE, ...(payload.leadData || {}) };
+    conversationState = payload.conversationState || conversationState;
+    leadSent = !!payload.leadSent;
+    startedAt = payload.startedAt;
+    return uiHistory.length > 0;
+  }catch(e){ return false; }
+}
+
+function clearState(){
+  try{ localStorage.removeItem(STORAGE_KEY); }catch(e){}
+}
+
+/* ---------- Apertura / cierre del panel ---------- */
 function openAdvisor(){
   advisorPanel.classList.add('open');
   advisorFab.style.display = 'none';
   if(uiHistory.length === 0){
-    const greeting = "Hola, soy el asesor digital de Urbicars Motors. Contame qué le está pasando a tu vehículo o qué servicio necesitas, y te voy guiando.";
+    const restored = loadState();
+    if(restored){
+      renderHistory();
+      updateProgressFromState();
+      if(leadSent){
+        showRestartOnly();
+        finishConversation(true);
+      }
+      return;
+    }
+    startedAt = Date.now();
+    const greeting = "Hola, soy el asesor de Urbicars Motors. Cuéntame qué necesitas hacerle a tu vehículo o qué problema está presentando, y te ayudaré a preparar la consulta para el equipo.";
     botSay(greeting, 300);
     apiMessages.push({role:'assistant', content: greeting});
-    showQuickReplies(["Quiero una reprogramación", "Tengo una falla / Check Engine", "Mecánica, tren delantero o electricidad", "Otro tema"]);
+    showQuickReplies(["Quiero una reprogramación", "Tengo una falla o Check Engine", "Necesito diagnóstico", "Mecánica o mantenimiento", "Electricidad o electrónica", "Tren delantero", "Consultar otro servicio"]);
+    setProgress('start');
   } else {
     renderHistory();
+    updateProgressFromState();
   }
 }
 function closeAdvisor(){
@@ -1577,8 +1804,17 @@ function closeAdvisor(){
   advisorFab.style.display = 'flex';
 }
 
+function addDayMark(){
+  if(advisorBody.querySelector('.advisor-daymark')) return;
+  const mark = document.createElement('div');
+  mark.className = 'advisor-daymark';
+  mark.textContent = 'Hoy';
+  advisorBody.appendChild(mark);
+}
+
 function renderHistory(){
   advisorBody.innerHTML = '';
+  addDayMark();
   uiHistory.forEach(m=>{
     const div = document.createElement('div');
     div.className = 'msg ' + (m.role === 'bot' ? 'bot' : 'user');
@@ -1586,10 +1822,12 @@ function renderHistory(){
     advisorBody.appendChild(div);
   });
   advisorBody.scrollTop = advisorBody.scrollHeight;
+  if(leadSent){ showRestartOnly(); }
 }
 
 function botSay(text, delay=400){
   showTyping();
+  const variableDelay = Math.min(1800, Math.max(delay, 350 + text.length * 6));
   setTimeout(()=>{
     hideTyping();
     uiHistory.push({role:'bot', text});
@@ -1598,9 +1836,11 @@ function botSay(text, delay=400){
     div.textContent = text;
     advisorBody.appendChild(div);
     advisorBody.scrollTop = advisorBody.scrollHeight;
-  }, delay);
+    saveState();
+  }, variableDelay);
 }
 function userSay(text){
+  addDayMark();
   uiHistory.push({role:'user', text});
   const div = document.createElement('div');
   div.className = 'msg user';
@@ -1618,9 +1858,10 @@ function showTyping(){
 function hideTyping(){ const t = document.getElementById('typingIndicator'); if(t) t.remove(); }
 
 function showQuickReplies(options){
+  if(!options || !options.length) return;
   const wrap = document.createElement('div');
   wrap.className = 'quick-replies';
-  options.forEach(opt=>{
+  options.slice(0,4).forEach(opt=>{
     const b = document.createElement('button');
     b.className = 'quick-reply';
     b.textContent = opt;
@@ -1634,53 +1875,181 @@ function showQuickReplies(options){
 function setAdvisorBusy(busy){
   advisorBusy = busy;
   advisorInput.disabled = busy;
-  advisorSend.disabled = busy;
+  advisorSend.disabled = busy || !advisorInput.value.trim();
 }
 
-async function sendMessage(text){
+/* ---------- Fusión segura de datos del lead ---------- */
+function mergeLeadData(current, incoming){
+  const result = { ...current };
+  Object.entries(incoming || {}).forEach(([key, value])=>{
+    if(!(key in result)) return;
+    if(value === null || value === undefined) return;
+    const normalized = String(value).trim();
+    const low = normalized.toLowerCase();
+    if(normalized && low !== 'undefined' && low !== 'null' && low !== 'n/a'){
+      result[key] = normalized;
+    }
+  });
+  return result;
+}
+
+/* ---------- Envío de mensajes ---------- */
+async function sendMessage(text, isRetry=false){
   if(advisorBusy || leadSent) return;
-  userSay(text);
-  apiMessages.push({role:'user', content: text});
+  if(!isRetry){
+    userSay(text);
+    apiMessages.push({role:'user', content: text});
+    lastUserMessage = text;
+  }
   document.querySelectorAll('.quick-replies').forEach(q=>q.remove());
+  document.querySelectorAll('.advisor-error').forEach(e=>e.remove());
   setAdvisorBusy(true);
   showTyping();
+  saveState();
+
+  const controller = new AbortController();
+  const timeoutId = setTimeout(()=>controller.abort(), API_TIMEOUT_MS);
 
   try{
     const res = await fetch('/api/chat', {
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ messages: apiMessages })
+      body: JSON.stringify({
+        messages: apiMessages,
+        leadData,
+        conversationState
+      }),
+      signal: controller.signal
     });
+    clearTimeout(timeoutId);
 
     if(!res.ok){
       hideTyping();
-      botSay("Se me complicó la conexión con el asesor en este momento. Mejor escríbenos directo por WhatsApp y te atendemos ahí mismo.", 200);
-      showDirectWaFallback();
+      showErrorFallback(res.status === 429 || res.status === 500);
       setAdvisorBusy(false);
       return;
     }
 
-    const data = await res.json();
+    let data;
+    try{
+      data = await res.json();
+    }catch(parseErr){
+      hideTyping();
+      showErrorFallback(true);
+      setAdvisorBusy(false);
+      return;
+    }
+
     hideTyping();
+    conversationState.turnCount = (conversationState.turnCount || 0) + 1;
+    if(data.intent) conversationState.intent = data.intent;
+
+    if(data.lead){
+      leadData = mergeLeadData(leadData, data.lead);
+    }
+    updateProgressFromState();
 
     if(data.reply){
       botSay(data.reply, 300);
       apiMessages.push({role:'assistant', content: data.reply});
     }
 
-    if(data.lead){
-      Object.keys(leadData).forEach(k=>{
-        if(data.lead[k]) leadData[k] = data.lead[k];
-      });
-      setTimeout(()=> finishConversation(), 900);
+    if(data.quickReplies && data.quickReplies.length && !data.readyForWhatsApp){
+      setTimeout(()=> showQuickReplies(data.quickReplies), 500);
     }
+
+    if(data.readyForWhatsApp){
+      setProgress('ready');
+      setTimeout(()=> finishConversation(), 1000);
+    }
+    saveState();
   } catch(err){
+    clearTimeout(timeoutId);
     hideTyping();
-    botSay("Se me complicó la conexión con el asesor en este momento. Mejor escríbenos directo por WhatsApp y te atendemos ahí mismo.", 200);
-    showDirectWaFallback();
+    showErrorFallback(true);
   }
 
   setAdvisorBusy(false);
+}
+
+function showErrorFallback(offerRetry){
+  const wrap = document.createElement('div');
+  wrap.className = 'advisor-error';
+  wrap.textContent = 'Hubo un problema momentáneo al procesar tu respuesta. Puedes intentarlo nuevamente o continuar directamente por WhatsApp.';
+  const actions = document.createElement('div');
+  actions.className = 'advisor-error-actions';
+  if(offerRetry !== false){
+    const retryBtn = document.createElement('button');
+    retryBtn.className = 'retry-btn';
+    retryBtn.textContent = 'Reintentar';
+    retryBtn.onclick = ()=>{ wrap.remove(); sendMessage(lastUserMessage, true); };
+    actions.appendChild(retryBtn);
+  }
+  const waBtn = document.createElement('button');
+  waBtn.className = 'wa-btn';
+  waBtn.textContent = 'Continuar por WhatsApp';
+  waBtn.onclick = ()=>{ wrap.remove(); finishConversation(); };
+  actions.appendChild(waBtn);
+  wrap.appendChild(actions);
+  advisorBody.appendChild(wrap);
+  advisorBody.scrollTop = advisorBody.scrollHeight;
+}
+
+/* ---------- Construcción del mensaje para WhatsApp ---------- */
+function addField(lines, label, value){
+  if(value && String(value).trim()){
+    lines.push(`${label}: ${String(value).trim()}`);
+  }
+}
+
+function buildLeadMessage(){
+  const d = leadData;
+  const lines = [];
+  lines.push('Hola, equipo de Urbicars Motors.');
+  lines.push('');
+  lines.push(`Mi nombre es ${d.nombre || '(sin especificar)'} y realicé una consulta desde la página web.`);
+
+  const vehiculo = [];
+  addField(vehiculo, 'Marca', d.marca);
+  addField(vehiculo, 'Modelo', d.modelo);
+  addField(vehiculo, 'Año', d.anio);
+  addField(vehiculo, 'Motor', d.motor);
+  addField(vehiculo, 'Combustible', d.combustible);
+  addField(vehiculo, 'Transmisión', d.transmision);
+  addField(vehiculo, 'Kilometraje', d.kilometraje);
+  if(vehiculo.length){ lines.push(''); lines.push('🚘 VEHÍCULO'); lines.push(...vehiculo); }
+
+  const consulta = [];
+  addField(consulta, 'Servicio solicitado', d.servicio);
+  addField(consulta, 'Motivo', d.motivoConsulta);
+  addField(consulta, 'Síntomas', d.sintomas);
+  addField(consulta, 'Cuándo ocurre', d.condicionesFalla);
+  addField(consulta, 'Desde cuándo', d.desdeCuando);
+  if(consulta.length){ lines.push(''); lines.push('🔧 CONSULTA'); lines.push(...consulta); }
+
+  const estado = [];
+  addField(estado, 'Luces en el tablero', d.lucesTablero);
+  addField(estado, 'Códigos de falla', d.codigosFalla);
+  addField(estado, 'Enciende', d.enciende);
+  addField(estado, 'Puede circular', d.circula);
+  addField(estado, 'Prioridad detectada', d.prioridad === 'alta' ? 'ALTA' : 'Normal');
+  if(estado.length){ lines.push(''); lines.push('⚠️ ESTADO DEL VEHÍCULO'); lines.push(...estado); }
+
+  const adicional = [];
+  addField(adicional, 'Modificaciones', d.modificaciones);
+  addField(adicional, 'Trabajos previos', d.trabajosPrevios);
+  addField(adicional, 'Observaciones', d.observaciones);
+  if(adicional.length){ lines.push(''); lines.push('⚙️ INFORMACIÓN ADICIONAL'); lines.push(...adicional); }
+
+  const coordinacion = [];
+  addField(coordinacion, 'Ubicación', d.ubicacion);
+  addField(coordinacion, 'Disponibilidad', d.disponibilidad);
+  if(coordinacion.length){ lines.push(''); lines.push('📍 COORDINACIÓN'); lines.push(...coordinacion); }
+
+  lines.push('');
+  lines.push('Me gustaría continuar la atención y coordinar una evaluación.');
+
+  return lines.join('\n');
 }
 
 function showDirectWaFallback(){
@@ -1688,54 +2057,91 @@ function showDirectWaFallback(){
   advisorWaCta.style.display = 'block';
 }
 
-function finishConversation(){
+function finishConversation(skipSummary){
   leadSent = true;
-  const d = leadData;
-  const msg = `Hola, mi nombre es ${d.nombre || '(sin especificar)'}.
-
-Realicé una consulta desde la página web de Urbicars Motors.
-
-Vehículo:
-${d.marca || '-'} ${d.modelo || ''} ${d.anio || ''}
-
-Motor:
-${d.motor || '-'}
-
-Servicio solicitado:
-${d.servicio || '-'}
-
-Problema o síntomas:
-${d.sintomas || '-'}
-
-Luces o códigos de falla:
-${d.luces || '-'}
-
-Modificaciones:
-${d.modificaciones || '-'}
-
-El vehículo puede circular:
-${d.circula || '-'}
-
-Ubicación:
-${d.ubicacion || '-'}
-
-Horario preferido:
-${d.horario || '-'}
-
-Me gustaría coordinar una evaluación.`;
+  if(!skipSummary){
+    const summaryParts = [];
+    if(leadData.marca || leadData.modelo) summaryParts.push(`${leadData.marca || ''} ${leadData.modelo || ''} ${leadData.anio || ''}`.trim());
+    if(leadData.sintomas) summaryParts.push(leadData.sintomas);
+    else if(leadData.servicio) summaryParts.push(leadData.servicio);
+    const summaryText = summaryParts.length
+      ? `Bien, ya tengo los datos principales: ${summaryParts.join(', ')}. Voy a preparar la consulta para que el equipo continúe contigo por WhatsApp.`
+      : 'Ya tengo los datos principales. Voy a preparar la consulta para que el equipo continúe contigo por WhatsApp.';
+    botSay(summaryText, 400);
+  }
+  const msg = buildLeadMessage();
   advisorWaBtn.href = buildWaLink(msg);
   advisorWaCta.style.display = 'block';
+  showRestartOnly();
+  saveState();
 }
 
-advisorSend.addEventListener('click', ()=>{
-  const v = advisorInput.value.trim();
-  if(!v) return;
+function showRestartOnly(){
+  advisorInputRow.style.display = 'none';
+  advisorRestartRow.style.display = 'block';
+}
+
+function resetAdvisorConversation(){
+  clearState();
+  uiHistory = [];
+  apiMessages = [];
+  leadData = { ...LEAD_TEMPLATE };
+  conversationState = { intent:'', askedFields:[], turnCount:0 };
+  leadSent = false;
+  startedAt = Date.now();
+  advisorBody.innerHTML = '';
+  advisorWaCta.style.display = 'none';
+  advisorRestartRow.style.display = 'none';
+  advisorInputRow.style.display = 'flex';
   advisorInput.value = '';
+  setProgress('start');
+  const greeting = "Hola, soy el asesor de Urbicars Motors. Cuéntame qué necesitas hacerle a tu vehículo o qué problema está presentando, y te ayudaré a preparar la consulta para el equipo.";
+  botSay(greeting, 200);
+  apiMessages.push({role:'assistant', content: greeting});
+  showQuickReplies(["Quiero una reprogramación", "Tengo una falla o Check Engine", "Necesito diagnóstico", "Mecánica o mantenimiento", "Electricidad o electrónica", "Tren delantero", "Consultar otro servicio"]);
+}
+
+advisorResetBtn.addEventListener('click', ()=>{
+  if(uiHistory.length === 0) return;
+  if(confirm('¿Reiniciar la consulta? Se borrará la conversación actual.')){
+    resetAdvisorConversation();
+  }
+});
+advisorRestartBtn2.addEventListener('click', resetAdvisorConversation);
+
+advisorDirectWa.addEventListener('click', (e)=>{
+  e.preventDefault();
+  const msg = (leadData.marca || leadData.servicio || leadData.sintomas) ? buildLeadMessage() : defaultWaMsg;
+  window.open(buildWaLink(msg), '_blank', 'noopener');
+});
+
+/* ---------- Textarea: auto-resize, Enter para enviar, Shift+Enter salto de línea ---------- */
+function autoGrowInput(){
+  advisorInput.style.height = 'auto';
+  advisorInput.style.height = Math.min(advisorInput.scrollHeight, 76) + 'px';
+}
+advisorInput.addEventListener('input', ()=>{
+  autoGrowInput();
+  advisorSend.disabled = advisorBusy || !advisorInput.value.trim();
+});
+
+function submitAdvisorInput(){
+  const v = advisorInput.value.trim();
+  if(!v || advisorBusy || leadSent) return;
+  advisorInput.value = '';
+  autoGrowInput();
+  advisorSend.disabled = true;
   sendMessage(v);
-});
+}
+advisorSend.addEventListener('click', submitAdvisorInput);
 advisorInput.addEventListener('keydown', (e)=>{
-  if(e.key === 'Enter'){ advisorSend.click(); }
+  if(e.key === 'Enter' && !e.shiftKey){
+    e.preventDefault();
+    submitAdvisorInput();
+  }
 });
+advisorSend.disabled = true;
+
 
 const methodVideo = document.getElementById('methodVideo');
 const methodVideoPlay = document.getElementById('methodVideoPlay');
