@@ -38,7 +38,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
   :root{
@@ -50,13 +50,13 @@
     --blue:#2f6fff;
     --blue-dim:#1c3f8f;
     --blue-dark:#0b2a5c;
-    --neon:#00e5ff;
+    --neon:#4dc4d4;
     --violet:#8b6bff;
     --white:#eef2f8;
     --muted:#8b93a6;
     --muted-2:#5a6274;
     --danger:#ff5470;
-    --font-display:'Chakra Petch', sans-serif;
+    --font-display:'Sora', sans-serif;
     --font-body:'Inter', sans-serif;
     --font-mono:'JetBrains Mono', monospace;
   }
@@ -120,7 +120,7 @@
     color:var(--white);
     border:1px solid var(--line);
   }
-  .btn-ghost:hover{transform:translateY(-3px);border-color:var(--neon);color:var(--neon);box-shadow:0 14px 30px -14px rgba(0,229,255,.5);}
+  .btn-ghost:hover{transform:translateY(-3px);border-color:var(--neon);color:var(--neon);box-shadow:0 14px 30px -14px rgba(77,196,212,.5);}
   .btn-whatsapp{
     background:transparent;
     border:1px solid #25D36655;
@@ -192,7 +192,7 @@
     transition:border-color .3s ease, background .3s ease;
     z-index:101;
   }
-  .burger:hover{border-color:var(--neon);background:rgba(0,229,255,.05);}
+  .burger:hover{border-color:var(--neon);background:rgba(77,196,212,.05);}
   .burger-lines{position:relative;width:14px;height:10px;}
   .burger-lines div{
     position:absolute;left:0;width:14px;height:1.3px;background:var(--white);
@@ -203,7 +203,7 @@
   .burger-lines div:nth-child(3){top:8px;}
   .burger:hover .burger-lines div{background:var(--neon);}
   .burger:hover .burger-lines div:nth-child(2){width:14px;left:0;}
-  .burger.active{border-color:var(--neon);background:rgba(0,229,255,.06);}
+  .burger.active{border-color:var(--neon);background:rgba(77,196,212,.06);}
   .burger.active .burger-lines div{background:var(--neon);}
   .burger.active .burger-lines div:nth-child(1){top:4px;transform:rotate(45deg);}
   .burger.active .burger-lines div:nth-child(2){opacity:0;transform:translateX(6px);}
@@ -225,7 +225,7 @@
     width:min(440px, 92vw);
     display:flex;flex-direction:column;
     background:
-      radial-gradient(600px 400px at 100% 0%, rgba(0,229,255,.06), transparent 60%),
+      radial-gradient(600px 400px at 100% 0%, rgba(77,196,212,.06), transparent 60%),
       linear-gradient(180deg, #0a0d12 0%, #05070a 100%);
     border-left:1px solid var(--line);
     box-shadow:-40px 0 80px -20px rgba(0,0,0,.65);
@@ -297,7 +297,7 @@
   .about-modal::before{
     content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     background:radial-gradient(circle at 15% 0%, rgba(47,111,255,.10), transparent 55%),
-               radial-gradient(circle at 85% 100%, rgba(0,229,255,.08), transparent 55%);
+               radial-gradient(circle at 85% 100%, rgba(77,196,212,.08), transparent 55%);
   }
   .about-modal-close{
     position:fixed;top:20px;right:20px;z-index:2;
@@ -356,12 +356,12 @@
   }
   .hero-scanlines{
     position:absolute;inset:0;z-index:2;pointer-events:none;
-    background:repeating-linear-gradient(0deg, rgba(0,229,255,.025) 0px, rgba(0,229,255,.025) 1px, transparent 1px, transparent 3px);
+    background:repeating-linear-gradient(0deg, rgba(77,196,212,.025) 0px, rgba(77,196,212,.025) 1px, transparent 1px, transparent 3px);
     mix-blend-mode:screen;
   }
   .hero-scan-line{
     position:absolute;left:0;right:0;height:120px;z-index:2;pointer-events:none;
-    background:linear-gradient(180deg, transparent, rgba(0,229,255,.06), transparent);
+    background:linear-gradient(180deg, transparent, rgba(77,196,212,.06), transparent);
     animation:scan-move 6s ease-in-out infinite;
   }
   @keyframes scan-move{
@@ -420,15 +420,15 @@
     text-decoration:none;color:var(--muted);
     transition:border-color .3s ease, color .3s ease, background .3s ease, transform .3s ease;
   }
-  .hero-icon-link:hover{border-color:var(--neon);color:var(--white);background:rgba(0,229,255,.06);transform:translateY(-2px);}
+  .hero-icon-link:hover{border-color:var(--neon);color:var(--white);background:rgba(77,196,212,.06);transform:translateY(-2px);}
   .hero-icon-link-ico{
     width:32px;height:32px;border-radius:50%;flex-shrink:0;
     display:flex;align-items:center;justify-content:center;
-    background:rgba(0,229,255,.08);border:1px solid var(--line);
+    background:rgba(77,196,212,.08);border:1px solid var(--line);
     transition:border-color .3s ease, background .3s ease;
   }
   .hero-icon-link-ico svg{width:15px;height:15px;stroke:var(--neon);fill:none;stroke-width:1.8;}
-  .hero-icon-link:hover .hero-icon-link-ico{border-color:var(--neon);background:rgba(0,229,255,.16);}
+  .hero-icon-link:hover .hero-icon-link-ico{border-color:var(--neon);background:rgba(77,196,212,.16);}
   .hero-icon-link-text{display:flex;flex-direction:column;gap:1px;line-height:1.25;}
   .hero-icon-link-label{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2);}
   .hero-icon-link-value{font-family:var(--font-display);font-size:13.5px;color:var(--white);font-weight:600;letter-spacing:-.01em;}
@@ -482,7 +482,7 @@
   .method-video-copy .method-video-label{
     display:inline-flex;align-items:center;gap:9px;padding:7px 14px 7px 10px;margin-bottom:16px;
     font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
-    color:var(--neon);border:1px solid rgba(0,229,255,.25);border-radius:20px;background:rgba(0,229,255,.06);
+    color:var(--neon);border:1px solid rgba(77,196,212,.25);border-radius:20px;background:rgba(77,196,212,.06);
   }
   .method-video-label .dot{width:6px;height:6px;border-radius:50%;background:var(--neon);box-shadow:0 0 8px var(--neon);flex-shrink:0;}
   .method-video-copy h3{font-family:var(--font-display);font-size:clamp(20px,2.4vw,26px);color:var(--white);margin-bottom:12px;line-height:1.25;}
@@ -495,7 +495,7 @@
   .method-video-frame::before{
     content:'';position:absolute;inset:0;z-index:2;pointer-events:none;border-radius:inherit;
     padding:1px;
-    background:linear-gradient(135deg, rgba(0,229,255,.4), rgba(47,111,255,0) 45%);
+    background:linear-gradient(135deg, rgba(77,196,212,.4), rgba(47,111,255,0) 45%);
     -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
     -webkit-mask-composite:xor;mask-composite:exclude;
   }
@@ -505,39 +505,30 @@
     display:flex;align-items:center;justify-content:center;
     border-radius:50%;border:1px solid rgba(255,255,255,.35);
     background:rgba(5,7,10,.55);backdrop-filter:blur(4px);color:var(--white);
-    box-shadow:0 0 0 1px rgba(0,229,255,.15), 0 12px 30px -8px rgba(0,0,0,.7);
+    box-shadow:0 0 0 1px rgba(77,196,212,.15), 0 12px 30px -8px rgba(0,0,0,.7);
     transition:transform .35s cubic-bezier(.16,1,.3,1), background .35s ease, opacity .35s ease, box-shadow .35s ease;
   }
   .method-video-play svg{margin-left:3px;}
-  .method-video-play:hover{transform:scale(1.1);background:rgba(47,111,255,.35);box-shadow:0 0 0 1px rgba(0,229,255,.4), 0 14px 34px -8px rgba(47,111,255,.6);}
+  .method-video-play:hover{transform:scale(1.1);background:rgba(47,111,255,.35);box-shadow:0 0 0 1px rgba(77,196,212,.4), 0 14px 34px -8px rgba(47,111,255,.6);}
   .method-video-play.is-hidden{opacity:0;pointer-events:none;transform:scale(.7);}
   @media (max-width:860px){
     .method-video-section{grid-template-columns:1fr;justify-items:center;text-align:center;}
     .method-video-copy p{max-width:100%;}
   }
 
-  /* ===== QUIÉNES SOMOS ===== */
-  .about-section{
-    position:relative;
-    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
-    background-image:
-      linear-gradient(100deg, rgba(5,7,10,.93) 0%, rgba(5,7,10,.85) 40%, rgba(18,22,29,.6) 68%, rgba(18,22,29,.42) 100%),
-      url('https://res.cloudinary.com/dgp7uhps3/image/upload/f_auto,q_auto,w_1800/v1784677332/IMG_9041_riy6ii.jpg');
-    background-size:cover;
-    background-position:center;
-  }
-  .about-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:64px;align-items:center;}
-  .about-media{border-radius:6px;overflow:hidden;border:1px solid var(--line);}
-  .about-media img{width:100%;height:100%;object-fit:cover;min-height:340px;}
-  .about-text h2{font-size:clamp(26px,3.6vw,38px);margin-bottom:18px;line-height:1.15;}
-  .about-text p{color:var(--muted);font-size:16px;margin-bottom:16px;max-width:52ch;}
-  .about-points{display:flex;flex-direction:column;gap:14px;margin:28px 0 32px;}
-  .about-point{
+  /* ===== "QUIÉNES SOMOS" resumido dentro de Metodología ===== */
+  .authority-about-teaser{
     display:flex;align-items:center;gap:14px;
-    font-size:14.5px;color:var(--white);
-    border-top:1px solid var(--line);padding-top:14px;
+    margin-top:28px;padding:12px;
+    border:1px solid var(--line);border-radius:10px;
+    background:rgba(255,255,255,.02);
+    text-align:left;max-width:420px;
+    transition:border-color .3s ease, background .3s ease, transform .3s ease;
   }
-  .about-point .num{font-family:var(--font-mono);font-size:12px;color:var(--neon);}
+  .authority-about-teaser:hover{border-color:var(--blue-dim);background:rgba(47,111,255,.06);transform:translateY(-2px);}
+  .authority-about-teaser img{width:52px;height:52px;border-radius:50%;object-fit:cover;flex-shrink:0;border:1px solid var(--line);}
+  .authority-about-teaser span{display:flex;flex-direction:column;gap:3px;font-size:13px;color:var(--muted);line-height:1.4;}
+  .authority-about-teaser span b{font-family:var(--font-display);font-size:14.5px;color:var(--white);font-weight:600;}
 
   /* ===== SERVICES (editorial) ===== */
   .services-section{
@@ -558,10 +549,7 @@
   .service-card{
     position:relative;
     border:1px solid var(--line);
-    border-radius:16px;
-    overflow:hidden;
-    background:linear-gradient(155deg, var(--panel) 0%, var(--graphite) 100%);
-    min-height:280px;
+    border-radius:10px;
     display:flex;flex-direction:column;justify-content:flex-end;
     isolation:isolate;
     box-shadow:0 1px 0 rgba(255,255,255,.03) inset, 0 18px 40px -24px rgba(0,0,0,.7);
@@ -570,7 +558,7 @@
   .service-card::before{
     content:'';position:absolute;inset:0;z-index:3;pointer-events:none;border-radius:inherit;
     padding:1px;
-    background:linear-gradient(135deg, rgba(0,229,255,.35), rgba(47,111,255,0) 40%);
+    background:linear-gradient(135deg, rgba(77,196,212,.35), rgba(47,111,255,0) 40%);
     -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
     -webkit-mask-composite:xor;mask-composite:exclude;
     opacity:0;transition:opacity .5s ease;
@@ -599,8 +587,8 @@
   .service-card .tag{
     font-family:var(--font-mono);font-size:10px;color:var(--neon);letter-spacing:.14em;text-transform:uppercase;
     display:inline-flex;align-items:center;gap:7px;margin-bottom:12px;
-    padding:5px 10px 5px 8px;border-radius:20px;border:1px solid rgba(0,229,255,.25);
-    background:rgba(0,229,255,.06);backdrop-filter:blur(6px);
+    padding:5px 10px 5px 8px;border-radius:20px;border:1px solid rgba(77,196,212,.25);
+    background:rgba(77,196,212,.06);backdrop-filter:blur(6px);
   }
   .service-card .tag::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--neon);box-shadow:0 0 8px var(--neon);flex-shrink:0;}
   .service-card h3{font-family:var(--font-display);font-size:20px;font-weight:600;color:var(--white);margin-bottom:8px;line-height:1.22;letter-spacing:-.01em;}
@@ -635,7 +623,7 @@
   }
   .hud-panel{
     background:#080b10;border:1px solid var(--line);border-radius:6px;
-    box-shadow:0 30px 80px -30px rgba(0,0,0,.7), 0 0 0 1px rgba(0,229,255,.05);
+    box-shadow:0 30px 80px -30px rgba(0,0,0,.7), 0 0 0 1px rgba(77,196,212,.05);
     overflow:hidden;
   }
   .hud-panel-head{
@@ -671,7 +659,7 @@
     display:grid;grid-template-columns:repeat(4, 1fr);gap:18px;
   }
   .gallery-item{
-    position:relative;border-radius:14px;overflow:hidden;isolation:isolate;
+    position:relative;border-radius:10px;overflow:hidden;isolation:isolate;
     aspect-ratio:4/5;border:1px solid var(--line);
     background:linear-gradient(155deg, var(--panel) 0%, var(--graphite) 100%);
     cursor:pointer;
@@ -681,7 +669,7 @@
   .gallery-item::before{
     content:'';position:absolute;inset:0;z-index:3;pointer-events:none;border-radius:inherit;
     padding:1px;
-    background:linear-gradient(135deg, rgba(0,229,255,.4), rgba(47,111,255,0) 45%);
+    background:linear-gradient(135deg, rgba(77,196,212,.4), rgba(47,111,255,0) 45%);
     -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
     -webkit-mask-composite:xor;mask-composite:exclude;
     opacity:0;transition:opacity .45s ease;
@@ -707,8 +695,8 @@
   .gallery-item .info .type{
     font-family:var(--font-mono);font-size:10px;color:var(--neon);letter-spacing:.1em;text-transform:uppercase;
     display:inline-flex;align-items:center;gap:6px;margin-bottom:8px;
-    padding:4px 9px 4px 7px;border-radius:20px;border:1px solid rgba(0,229,255,.25);
-    background:rgba(0,229,255,.07);backdrop-filter:blur(6px);
+    padding:4px 9px 4px 7px;border-radius:20px;border:1px solid rgba(77,196,212,.25);
+    background:rgba(77,196,212,.07);backdrop-filter:blur(6px);
   }
   .gallery-item .info .type::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--neon);box-shadow:0 0 7px var(--neon);flex-shrink:0;}
   .gallery-item .info h4{font-family:var(--font-display);font-size:15.5px;font-weight:600;color:var(--white);letter-spacing:-.005em;}
@@ -952,7 +940,7 @@
   .reprog-modal-bg::after{
     content:'';position:absolute;inset:0;
     background:
-      radial-gradient(900px 500px at 100% 0%, rgba(0,229,255,.10), transparent 55%),
+      radial-gradient(900px 500px at 100% 0%, rgba(77,196,212,.10), transparent 55%),
       linear-gradient(180deg, rgba(5,7,10,.55) 0%, rgba(5,7,10,.86) 42%, rgba(5,7,10,.97) 100%);
   }
   .reprog-modal-close{
@@ -972,13 +960,13 @@
     display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px;
   }
   .reprog-flow span{padding:6px 10px;border:1px solid var(--line);border-radius:20px;background:var(--panel);position:relative;}
-  .reprog-flow span.on{color:var(--neon);border-color:rgba(0,229,255,.4);background:rgba(0,229,255,.06);}
+  .reprog-flow span.on{color:var(--neon);border-color:rgba(77,196,212,.4);background:rgba(77,196,212,.06);}
   .reprog-divider{height:1px;background:linear-gradient(90deg, var(--line), transparent);margin:36px 0;}
   .reprog-block-title{font-family:var(--font-display);font-size:20px;color:var(--white);margin-bottom:12px;}
   .reprog-block p{color:var(--muted);font-size:15px;line-height:1.7;max-width:70ch;margin-bottom:14px;}
   .reprog-seal{
     display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:12px;
-    color:var(--neon);border:1px solid rgba(0,229,255,.35);background:rgba(0,229,255,.06);
+    color:var(--neon);border:1px solid rgba(77,196,212,.35);background:rgba(77,196,212,.06);
     padding:8px 14px;border-radius:20px;
   }
   .reprog-seal::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--neon);box-shadow:0 0 8px var(--neon);}
@@ -999,8 +987,8 @@
   .reprog-chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;}
   .reprog-chip{font-family:var(--font-mono);font-size:12px;color:var(--muted);border:1px solid var(--line);padding:7px 13px;border-radius:20px;}
   .reprog-warning{
-    border:1px solid rgba(0,229,255,.3);border-radius:8px;
-    background:rgba(0,229,255,.04);padding:20px 22px;margin-top:12px;
+    border:1px solid rgba(77,196,212,.3);border-radius:8px;
+    background:rgba(77,196,212,.04);padding:20px 22px;margin-top:12px;
   }
   .reprog-warning p{color:var(--muted);font-size:13.5px;margin:0;line-height:1.65;}
   .reprog-faq{border-top:1px solid var(--line);margin-top:8px;}
@@ -1011,6 +999,42 @@
   .reprog-faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease;}
   .reprog-faq-a p{color:var(--muted);font-size:14px;padding-bottom:18px;margin:0;max-width:65ch;}
   .reprog-final{display:flex;flex-wrap:wrap;gap:14px;margin-top:36px;}
+
+  /* ---- Bloques nuevos de la versión resumida ---- */
+  .reprog-mini-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:6px;margin-bottom:16px;}
+  .reprog-mini-item{border:1px solid var(--line);border-radius:8px;padding:16px;background:var(--panel);}
+  .reprog-mini-n{font-family:var(--font-mono);font-size:11px;color:var(--neon);display:block;margin-bottom:8px;}
+  .reprog-mini-item p{font-size:13.5px;color:var(--muted);margin:0;line-height:1.55;}
+  .reprog-benefit-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px;}
+  .reprog-benefit-card{border:1px solid var(--line);border-radius:8px;padding:18px;background:var(--panel);}
+  .reprog-benefit-card h4{font-family:var(--font-display);font-size:15px;color:var(--white);margin-bottom:8px;}
+  .reprog-benefit-card p{font-size:13.5px;color:var(--muted);margin:0;line-height:1.55;}
+  .reprog-steps-compact{grid-template-columns:repeat(3,1fr);}
+  .reprog-case-teaser{
+    display:flex;align-items:center;gap:16px;margin-top:8px;padding:14px;
+    border:1px solid var(--line);border-radius:10px;background:var(--panel);
+    text-decoration:none;transition:border-color .3s ease, background .3s ease, transform .3s ease;
+  }
+  .reprog-case-teaser:hover{border-color:var(--blue-dim);background:rgba(47,111,255,.06);transform:translateY(-2px);}
+  .reprog-case-teaser img{width:64px;height:64px;border-radius:6px;object-fit:cover;flex-shrink:0;}
+  .reprog-case-teaser span{display:flex;flex-direction:column;gap:4px;font-size:13.5px;color:var(--muted);line-height:1.4;}
+  .reprog-case-teaser span b{font-family:var(--font-display);font-size:15px;color:var(--white);font-weight:600;}
+  .reprog-more{border:1px solid var(--line);border-radius:10px;padding:0;background:rgba(255,255,255,.015);}
+  .reprog-more summary{
+    list-style:none;cursor:pointer;padding:16px 20px;
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    font-family:var(--font-mono);font-size:12.5px;color:var(--white);letter-spacing:.02em;
+  }
+  .reprog-more summary::-webkit-details-marker{display:none;}
+  .reprog-more summary::after{content:'+';font-family:var(--font-mono);font-size:16px;color:var(--neon);flex-shrink:0;transition:transform .25s ease;}
+  .reprog-more[open] summary::after{transform:rotate(45deg);}
+  .reprog-more[open] summary{border-bottom:1px solid var(--line);}
+  .reprog-more-body{padding:28px 20px 6px;}
+  .reprog-more-body .reprog-divider:first-child{display:none;}
+  @media (max-width:760px){
+    .reprog-mini-grid, .reprog-benefit-cards, .reprog-steps-compact{grid-template-columns:1fr;}
+    .reprog-case-teaser{flex-direction:row;}
+  }
   @media (max-width:760px){
     .reprog-steps, .reprog-two{grid-template-columns:1fr;}
     .reprog-modal-scroll{padding:48px 18px 40px;}
@@ -1018,7 +1042,7 @@
 
   /* ===== RESPONSIVE ===== */
   @media (max-width:960px){
-    .authority-grid, .tech-grid, .contact-grid, .about-grid{grid-template-columns:1fr;gap:36px;}
+    .authority-grid, .tech-grid, .contact-grid{grid-template-columns:1fr;gap:36px;}
     .services-grid{grid-template-columns:repeat(2,1fr);}
     .service-card.large, .service-card.medium, .service-card.small{grid-column:span 2;}
     .gallery-grid{grid-template-columns:repeat(2,1fr);}
@@ -1052,7 +1076,7 @@
     </a>
     <div class="nav-links">
       <a href="#inicio">Inicio</a>
-      <a href="#quienes-somos">Quiénes Somos</a>
+      <a href="#" onclick="event.preventDefault(); openAboutModal();">Quiénes Somos</a>
       <a href="#metodologia">Metodología</a>
       <a href="#servicios">Servicios</a>
       <a href="#tecnologia">Tecnología</a>
@@ -1154,119 +1178,166 @@
       <div class="reprog-divider"></div>
 
       <div class="reprog-block">
-        <div class="reprog-block-title">Una buena calibración comienza antes de modificar la ECU</div>
-        <p>Una reprogramación no consiste únicamente en cargar un archivo. Para definir un ajuste responsable es necesario conocer cómo está funcionando el vehículo, qué configuración posee y qué modificaciones fueron instaladas.</p>
+        <div class="reprog-block-title">Qué analizamos antes de calibrar</div>
+        <div class="reprog-mini-grid">
+          <div class="reprog-mini-item"><span class="reprog-mini-n">01</span><p>El vehículo y su configuración actual, incluidas modificaciones instaladas en cualquier taller.</p></div>
+          <div class="reprog-mini-item"><span class="reprog-mini-n">02</span><p>El estado mecánico general, para no calibrar sobre una falla existente.</p></div>
+          <div class="reprog-mini-item"><span class="reprog-mini-n">03</span><p>Datos reales con herramientas profesionales (HP Tuners): parámetros y comportamiento del motor.</p></div>
+        </div>
         <span class="reprog-seal">No reprogramamos sin analizar.</span>
       </div>
 
       <div class="reprog-divider"></div>
 
       <div class="reprog-block">
-        <div class="reprog-block-title">El proceso de reprogramación</div>
-        <div class="reprog-steps">
-          <div class="reprog-step"><div class="n">01</div><h4>Identificamos el vehículo</h4><p>Confirmamos marca, modelo, año, motor, transmisión, combustible y tipo de ECU cuando corresponda.</p></div>
-          <div class="reprog-step"><div class="n">02</div><h4>Revisamos su configuración</h4><p>Conocemos las modificaciones actuales, trabajos anteriores y el uso habitual del vehículo.</p></div>
-          <div class="reprog-step"><div class="n">03</div><h4>Realizamos una evaluación previa</h4><p>Revisamos que no existan fallas que puedan afectar la calibración o el comportamiento posterior.</p></div>
-          <div class="reprog-step"><div class="n">04</div><h4>Analizamos datos</h4><p>Observamos parámetros, correcciones y condiciones de funcionamiento antes de realizar cambios.</p></div>
-          <div class="reprog-step"><div class="n">05</div><h4>Definimos la calibración</h4><p>Los ajustes se determinan de acuerdo con el vehículo, su configuración y el objetivo buscado.</p></div>
-          <div class="reprog-step"><div class="n">06</div><h4>Verificamos el comportamiento</h4><p>Revisamos los parámetros posteriores dentro del alcance del trabajo realizado.</p></div>
+        <div class="reprog-block-title">Qué puede mejorar tu vehículo</div>
+        <div class="reprog-benefit-cards">
+          <div class="reprog-benefit-card"><h4>Respuesta del acelerador</h4><p>Entrega más directa y consistente en el uso diario.</p></div>
+          <div class="reprog-benefit-card"><h4>Entrega de potencia</h4><p>Aprovechamiento real de la configuración del motor.</p></div>
+          <div class="reprog-benefit-card"><h4>Adaptación a modificaciones</h4><p>Calibración acorde a admisión, escape, turbo u otros componentes instalados.</p></div>
+        </div>
+        <p style="margin-top:14px;font-size:13.5px;color:var(--muted-2);">El alcance real depende de la evaluación previa y la configuración de cada vehículo.</p>
+      </div>
+
+      <div class="reprog-divider"></div>
+
+      <div class="reprog-block">
+        <div class="reprog-block-title">El proceso, en tres pasos</div>
+        <div class="reprog-steps reprog-steps-compact">
+          <div class="reprog-step"><div class="n">01</div><h4>Evaluamos</h4><p>Identificamos el vehículo y revisamos su configuración y estado mecánico.</p></div>
+          <div class="reprog-step"><div class="n">02</div><h4>Analizamos</h4><p>Registramos datos reales del motor antes de definir cualquier cambio.</p></div>
+          <div class="reprog-step"><div class="n">03</div><h4>Calibramos y verificamos</h4><p>Definimos la calibración según el objetivo y confirmamos el comportamiento posterior.</p></div>
         </div>
       </div>
 
       <div class="reprog-divider"></div>
 
       <div class="reprog-block">
-        <div class="reprog-block-title">¿Qué puede mejorar una reprogramación?</div>
-        <p>Según el vehículo y dependiendo de la configuración, cuando existe compatibilidad y después de una evaluación, una calibración puede mejorar:</p>
-        <div class="reprog-benefits">
-          <span class="reprog-benefit">Respuesta del acelerador</span>
-          <span class="reprog-benefit">Entrega de potencia</span>
-          <span class="reprog-benefit">Comportamiento del motor</span>
-          <span class="reprog-benefit">Adaptación a modificaciones</span>
-          <span class="reprog-benefit">Configuración electrónica</span>
-          <span class="reprog-benefit">Manejo en uso diario</span>
-          <span class="reprog-benefit">Comportamiento deportivo</span>
-          <span class="reprog-benefit">Integración de componentes instalados</span>
-        </div>
+        <div class="reprog-block-title">Casos reales</div>
+        <a class="reprog-case-teaser" href="#proyectos" onclick="closeReprogrammingModal();">
+          <img src="https://res.cloudinary.com/dgp7uhps3/image/upload/f_auto,q_auto,w_200,h_200,c_fill/v1784680540/IMG_9047_lsqx0y.jpg" alt="Ford Mustang con tren delantero, entonación y programación">
+          <span>
+            <b>Ford Mustang — tren delantero, entonación y programación</b>
+            Ver más trabajos reales en la galería de proyectos →
+          </span>
+        </a>
       </div>
 
       <div class="reprog-divider"></div>
 
-      <div class="reprog-block">
-        <div class="reprog-block-title">Vehículo original o modificado</div>
-        <div class="reprog-two">
-          <div class="reprog-two-card">
-            <h4>Vehículos originales</h4>
-            <p>Evaluamos si la configuración electrónica permite optimizar la respuesta o el comportamiento sin comprometer el funcionamiento general del vehículo.</p>
+      <details class="reprog-more">
+        <summary>Ver proceso técnico completo, tipos de vehículo y preguntas frecuentes</summary>
+        <div class="reprog-more-body">
+
+          <div class="reprog-block">
+            <div class="reprog-block-title">El proceso de reprogramación, completo</div>
+            <div class="reprog-steps">
+              <div class="reprog-step"><div class="n">01</div><h4>Identificamos el vehículo</h4><p>Confirmamos marca, modelo, año, motor, transmisión, combustible y tipo de ECU cuando corresponda.</p></div>
+              <div class="reprog-step"><div class="n">02</div><h4>Revisamos su configuración</h4><p>Conocemos las modificaciones actuales, trabajos anteriores y el uso habitual del vehículo.</p></div>
+              <div class="reprog-step"><div class="n">03</div><h4>Realizamos una evaluación previa</h4><p>Revisamos que no existan fallas que puedan afectar la calibración o el comportamiento posterior.</p></div>
+              <div class="reprog-step"><div class="n">04</div><h4>Analizamos datos</h4><p>Observamos parámetros, correcciones y condiciones de funcionamiento antes de realizar cambios.</p></div>
+              <div class="reprog-step"><div class="n">05</div><h4>Definimos la calibración</h4><p>Los ajustes se determinan de acuerdo con el vehículo, su configuración y el objetivo buscado.</p></div>
+              <div class="reprog-step"><div class="n">06</div><h4>Verificamos el comportamiento</h4><p>Revisamos los parámetros posteriores dentro del alcance del trabajo realizado.</p></div>
+            </div>
           </div>
-          <div class="reprog-two-card">
-            <h4>Vehículos modificados</h4>
-            <p>La calibración debe considerar componentes como admisión, escape, headers, árbol de levas, inyectores, turbo o supercargador.</p>
+
+          <div class="reprog-divider"></div>
+
+          <div class="reprog-block">
+            <div class="reprog-block-title">¿Qué puede mejorar una reprogramación?</div>
+            <p>Según el vehículo y dependiendo de la configuración, cuando existe compatibilidad y después de una evaluación, una calibración puede mejorar:</p>
+            <div class="reprog-benefits">
+              <span class="reprog-benefit">Respuesta del acelerador</span>
+              <span class="reprog-benefit">Entrega de potencia</span>
+              <span class="reprog-benefit">Comportamiento del motor</span>
+              <span class="reprog-benefit">Adaptación a modificaciones</span>
+              <span class="reprog-benefit">Configuración electrónica</span>
+              <span class="reprog-benefit">Manejo en uso diario</span>
+              <span class="reprog-benefit">Comportamiento deportivo</span>
+              <span class="reprog-benefit">Integración de componentes instalados</span>
+            </div>
           </div>
-        </div>
-        <p style="margin-top:16px;">Es importante informar todas las modificaciones instaladas, incluso si fueron realizadas por otro taller.</p>
-        <div class="reprog-chips">
-          <span class="reprog-chip">Mustang</span>
-          <span class="reprog-chip">Camaro</span>
-          <span class="reprog-chip">Dodge</span>
-          <span class="reprog-chip">Muscle cars</span>
-          <span class="reprog-chip">Vehículos americanos</span>
-          <span class="reprog-chip">Vehículos modernos</span>
-          <span class="reprog-chip">Vehículos modificados</span>
-          <span class="reprog-chip">Alto rendimiento</span>
-        </div>
-        <p style="margin-top:12px;">También evaluamos otros vehículos según compatibilidad.</p>
-      </div>
 
-      <div class="reprog-divider"></div>
+          <div class="reprog-divider"></div>
 
-      <div class="reprog-block">
-        <div class="reprog-block-title">Para calibrar correctamente, primero hay que entender cómo trabaja el vehículo</div>
-        <p>Las herramientas profesionales permiten registrar y analizar información que una revisión superficial no muestra: lectura de ECU, registro de datos, monitoreo de parámetros, comunicación entre módulos, temperaturas, correcciones, mezcla, encendido, presión y comportamiento bajo diferentes condiciones.</p>
-        <div class="reprog-chips">
-          <span class="reprog-chip">HP Tuners</span>
+          <div class="reprog-block">
+            <div class="reprog-block-title">Vehículo original o modificado</div>
+            <div class="reprog-two">
+              <div class="reprog-two-card">
+                <h4>Vehículos originales</h4>
+                <p>Evaluamos si la configuración electrónica permite optimizar la respuesta o el comportamiento sin comprometer el funcionamiento general del vehículo.</p>
+              </div>
+              <div class="reprog-two-card">
+                <h4>Vehículos modificados</h4>
+                <p>La calibración debe considerar componentes como admisión, escape, headers, árbol de levas, inyectores, turbo o supercargador.</p>
+              </div>
+            </div>
+            <p style="margin-top:16px;">Es importante informar todas las modificaciones instaladas, incluso si fueron realizadas por otro taller.</p>
+            <div class="reprog-chips">
+              <span class="reprog-chip">Mustang</span>
+              <span class="reprog-chip">Camaro</span>
+              <span class="reprog-chip">Dodge</span>
+              <span class="reprog-chip">Muscle cars</span>
+              <span class="reprog-chip">Vehículos americanos</span>
+              <span class="reprog-chip">Vehículos modernos</span>
+              <span class="reprog-chip">Vehículos modificados</span>
+              <span class="reprog-chip">Alto rendimiento</span>
+            </div>
+            <p style="margin-top:12px;">También evaluamos otros vehículos según compatibilidad.</p>
+          </div>
+
+          <div class="reprog-divider"></div>
+
+          <div class="reprog-block">
+            <div class="reprog-block-title">Para calibrar correctamente, primero hay que entender cómo trabaja el vehículo</div>
+            <p>Las herramientas profesionales permiten registrar y analizar información que una revisión superficial no muestra: lectura de ECU, registro de datos, monitoreo de parámetros, comunicación entre módulos, temperaturas, correcciones, mezcla, encendido, presión y comportamiento bajo diferentes condiciones.</p>
+            <div class="reprog-chips">
+              <span class="reprog-chip">HP Tuners</span>
+            </div>
+            <p style="margin-top:16px;font-style:italic;">Una herramienta no reemplaza la experiencia, pero permite tomar decisiones con mejor información.</p>
+          </div>
+
+          <div class="reprog-divider"></div>
+
+          <div class="reprog-block">
+            <div class="reprog-block-title">Preguntas frecuentes</div>
+            <div class="reprog-faq" id="reprogFaqList">
+              <div class="reprog-faq-item">
+                <button class="reprog-faq-q">¿Todos los vehículos se pueden reprogramar?<span class="plus">+</span></button>
+                <div class="reprog-faq-a"><p>No necesariamente. Primero se debe confirmar la compatibilidad del vehículo, la ECU y las herramientas disponibles.</p></div>
+              </div>
+              <div class="reprog-faq-item">
+                <button class="reprog-faq-q">¿Cuánta potencia puede ganar mi vehículo?<span class="plus">+</span></button>
+                <div class="reprog-faq-a"><p>Depende del motor, el combustible, el estado mecánico, las modificaciones y la configuración actual. No corresponde prometer una cifra sin revisar el vehículo.</p></div>
+              </div>
+              <div class="reprog-faq-item">
+                <button class="reprog-faq-q">¿Puedo reprogramar un vehículo original?<span class="plus">+</span></button>
+                <div class="reprog-faq-a"><p>En algunos casos es posible optimizar determinados parámetros, pero primero debe confirmarse la compatibilidad y el estado general.</p></div>
+              </div>
+              <div class="reprog-faq-item">
+                <button class="reprog-faq-q">¿Pueden trabajar sobre un vehículo modificado?<span class="plus">+</span></button>
+                <div class="reprog-faq-a"><p>Sí, siempre que la configuración pueda evaluarse correctamente. Es importante informar todos los componentes instalados.</p></div>
+              </div>
+              <div class="reprog-faq-item">
+                <button class="reprog-faq-q">¿La reprogramación elimina el Check Engine?<span class="plus">+</span></button>
+                <div class="reprog-faq-a"><p>Una reprogramación no debe utilizarse para ocultar una falla. Primero se debe encontrar la causa del código o de la luz encendida.</p></div>
+              </div>
+              <div class="reprog-faq-item">
+                <button class="reprog-faq-q">¿Es necesario realizar un diagnóstico previo?<span class="plus">+</span></button>
+                <div class="reprog-faq-a"><p>La evaluación previa permite conocer el estado del vehículo y evita realizar una calibración sobre una falla existente.</p></div>
+              </div>
+              <div class="reprog-faq-item">
+                <button class="reprog-faq-q">¿Utilizan paquetes Stage 1, Stage 2 o Stage 3?<span class="plus">+</span></button>
+                <div class="reprog-faq-a"><p>El alcance depende de la configuración real del vehículo. La calibración no debe definirse únicamente por una etiqueta genérica.</p></div>
+              </div>
+            </div>
+          </div>
+
         </div>
-        <p style="margin-top:16px;font-style:italic;">Una herramienta no reemplaza la experiencia, pero permite tomar decisiones con mejor información.</p>
-      </div>
+      </details>
 
       <div class="reprog-warning">
         <p>Los resultados posibles dependen del vehículo, su estado mecánico, la ECU, el combustible, las modificaciones y la configuración actual. La compatibilidad y el alcance del trabajo se confirman después de una evaluación.</p>
-      </div>
-
-      <div class="reprog-divider"></div>
-
-      <div class="reprog-block">
-        <div class="reprog-block-title">Preguntas frecuentes</div>
-        <div class="reprog-faq" id="reprogFaqList">
-          <div class="reprog-faq-item">
-            <button class="reprog-faq-q">¿Todos los vehículos se pueden reprogramar?<span class="plus">+</span></button>
-            <div class="reprog-faq-a"><p>No necesariamente. Primero se debe confirmar la compatibilidad del vehículo, la ECU y las herramientas disponibles.</p></div>
-          </div>
-          <div class="reprog-faq-item">
-            <button class="reprog-faq-q">¿Cuánta potencia puede ganar mi vehículo?<span class="plus">+</span></button>
-            <div class="reprog-faq-a"><p>Depende del motor, el combustible, el estado mecánico, las modificaciones y la configuración actual. No corresponde prometer una cifra sin revisar el vehículo.</p></div>
-          </div>
-          <div class="reprog-faq-item">
-            <button class="reprog-faq-q">¿Puedo reprogramar un vehículo original?<span class="plus">+</span></button>
-            <div class="reprog-faq-a"><p>En algunos casos es posible optimizar determinados parámetros, pero primero debe confirmarse la compatibilidad y el estado general.</p></div>
-          </div>
-          <div class="reprog-faq-item">
-            <button class="reprog-faq-q">¿Pueden trabajar sobre un vehículo modificado?<span class="plus">+</span></button>
-            <div class="reprog-faq-a"><p>Sí, siempre que la configuración pueda evaluarse correctamente. Es importante informar todos los componentes instalados.</p></div>
-          </div>
-          <div class="reprog-faq-item">
-            <button class="reprog-faq-q">¿La reprogramación elimina el Check Engine?<span class="plus">+</span></button>
-            <div class="reprog-faq-a"><p>Una reprogramación no debe utilizarse para ocultar una falla. Primero se debe encontrar la causa del código o de la luz encendida.</p></div>
-          </div>
-          <div class="reprog-faq-item">
-            <button class="reprog-faq-q">¿Es necesario realizar un diagnóstico previo?<span class="plus">+</span></button>
-            <div class="reprog-faq-a"><p>La evaluación previa permite conocer el estado del vehículo y evita realizar una calibración sobre una falla existente.</p></div>
-          </div>
-          <div class="reprog-faq-item">
-            <button class="reprog-faq-q">¿Utilizan paquetes Stage 1, Stage 2 o Stage 3?<span class="plus">+</span></button>
-            <div class="reprog-faq-a"><p>El alcance depende de la configuración real del vehículo. La calibración no debe definirse únicamente por una etiqueta genérica.</p></div>
-          </div>
-        </div>
       </div>
 
       <div class="reprog-final">
@@ -1342,29 +1413,7 @@
 </section>
 
 <!-- ============ QUIÉNES SOMOS ============ -->
-<section class="section-pad about-section" id="quienes-somos">
-  <div class="container about-grid">
-    <div class="about-media">
-      <img src="https://res.cloudinary.com/dgp7uhps3/image/upload/f_auto,q_auto,w_900/v1784677311/IMG_9037_uxlvii.jpg" alt="Equipo de Urbicars Motors trabajando en el taller">
-    </div>
-    <div class="about-text">
-      <div class="eyebrow">Quiénes somos</div>
-      <h2>Un taller creado para encontrar respuestas</h2>
-      <p>Urbicars Motors trabaja bajo una idea simple: antes de reparar o reprogramar un vehículo, hay que entender qué está sucediendo.</p>
-      <p>Combinamos diagnóstico electrónico, programación, calibración y evaluación mecánica para tomar decisiones basadas en información real.</p>
-      <p>Cada vehículo llega con una configuración diferente. Por eso el proceso comienza escuchando al cliente y analizando el vehículo.</p>
-      <div class="about-points">
-        <div class="about-point"><span class="num">01</span>Rigor técnico en cada diagnóstico</div>
-        <div class="about-point"><span class="num">02</span>Herramientas profesionales de programación</div>
-        <div class="about-point"><span class="num">03</span>Enfoque en vehículos americanos y de alto rendimiento</div>
-        <div class="about-point"><span class="num">04</span>Atención directa y personalizada</div>
-      </div>
-      <a class="btn btn-ghost" href="https://www.instagram.com/urbicarsmotors" target="_blank" rel="noopener">📸 Conocer el taller en Instagram</a>
-    </div>
-  </div>
-</section>
-
-<!-- ============ AUTORIDAD ============ -->
+<!-- ============ AUTORIDAD (incluye "Quiénes somos" resumido) ============ -->
 <section class="authority section-pad" id="metodologia">
   <div class="container authority-grid">
     <div class="authority-text">
@@ -1372,6 +1421,13 @@
       <h2>No adivinamos. Diagnosticamos.</h2>
       <p>Una misma falla puede tener diferentes causas. Por eso revisamos módulos, sensores, códigos, parámetros y condiciones reales antes de recomendar una reparación o realizar una calibración.</p>
       <p>El objetivo no es cambiar piezas hasta acertar ni modificar parámetros sin analizar. Es comprender primero cómo está funcionando el vehículo.</p>
+      <button type="button" class="authority-about-teaser" onclick="openAboutModal()">
+        <img src="https://res.cloudinary.com/dgp7uhps3/image/upload/f_auto,q_auto,w_120,h_120,c_fill/v1784677311/IMG_9037_uxlvii.jpg" alt="Equipo de Urbicars Motors">
+        <span>
+          <b>Quiénes somos</b>
+          Conocé el taller y el equipo detrás de cada diagnóstico →
+        </span>
+      </button>
     </div>
     <div class="authority-panel">
       <div class="authority-panel-head"><span>PANEL_DIAGNOSTICO.SYS</span><span class="dot"></span></div>
@@ -1413,7 +1469,7 @@
         <div class="service-card-content">
           <span class="tag">HP Tuners · Calibración</span>
           <h3>Reprogramación automotriz</h3>
-          <p>Analizamos la configuración electrónica, el estado del motor y las modificaciones instaladas antes de realizar cualquier ajuste.</p>
+          <p>Una calibración adaptada a tu vehículo, sus modificaciones y el uso que realmente le das — no un archivo genérico.</p>
           <button class="link" data-cta="reprogramming-service-card" onclick="openReprogrammingModal()">Conocer el proceso →</button>
         </div>
       </div>
@@ -1423,7 +1479,7 @@
         <div class="service-card-content">
           <span class="tag">Diagzone · MDI</span>
           <h3>Diagnóstico electrónico avanzado</h3>
-          <p>Revisamos sistemas, módulos, parámetros y códigos para encontrar el origen de fallas que una inspección convencional puede no mostrar.</p>
+          <p>Encontramos la causa real de la falla antes de cambiar una sola pieza, sin pruebas al azar ni gastos innecesarios.</p>
           <button class="link" onclick="openAdvisor()">Consultar este servicio →</button>
         </div>
       </div>
@@ -1433,7 +1489,7 @@
         <div class="service-card-content">
           <span class="tag">VCM</span>
           <h3>Programación de módulos</h3>
-          <p>Configuración, adaptación y programación de módulos de acuerdo con la compatibilidad y las necesidades reales del vehículo.</p>
+          <p>Recuperamos, configuramos o reemplazamos módulos sin improvisar compatibilidades.</p>
           <button class="link" onclick="openAdvisor()">Consultar este servicio →</button>
         </div>
       </div>
@@ -1443,7 +1499,7 @@
         <div class="service-card-content">
           <span class="tag">Evaluación integral</span>
           <h3>Diagnóstico mecánico</h3>
-          <p>Combinamos inspección mecánica e información electrónica para evitar reparaciones basadas únicamente en síntomas.</p>
+          <p>Corregimos fallas con criterio y evitamos cambios de piezas innecesarios.</p>
           <button class="link" onclick="openAdvisor()">Consultar este servicio →</button>
         </div>
       </div>
@@ -1453,7 +1509,7 @@
         <div class="service-card-content">
           <span class="tag">Calibración</span>
           <h3>HP Tuners y calibración</h3>
-          <p>Trabajamos con la plataforma HP Tuners para leer, ajustar y verificar parámetros en vehículos compatibles.</p>
+          <p>Ajustes verificados con datos reales del motor, no con configuraciones estándar de fábrica.</p>
           <button class="link" data-cta="reprogramming-service-card-tools" onclick="openReprogrammingModal()">Conocer el proceso →</button>
         </div>
       </div>
@@ -1463,7 +1519,7 @@
         <div class="service-card-content">
           <span class="tag">Preventivo · Correctivo</span>
           <h3>Mantenimiento especializado</h3>
-          <p>Servicios preventivos y correctivos realizados bajo procesos técnicos.</p>
+          <p>Tu vehículo funcionando como corresponde, sin sorpresas ni visitas repetidas al taller.</p>
           <button class="link" onclick="openAdvisor()">Consultar este servicio →</button>
         </div>
       </div>
@@ -1473,7 +1529,7 @@
         <div class="service-card-content">
           <span class="tag">Mustang · Camaro · Dodge</span>
           <h3>Evaluación de vehículos americanos</h3>
-          <p>Diagnóstico especializado para Mustang, Camaro, Dodge y otros vehículos de alta performance.</p>
+          <p>Atención especializada para tu muscle car, con criterio técnico que entiende su configuración y su potencial real.</p>
           <button class="link" onclick="openAdvisor()">Consultar este servicio →</button>
         </div>
       </div>
@@ -1483,7 +1539,7 @@
         <div class="service-card-content">
           <span class="tag">Servicio integral</span>
           <h3>Mecánica general</h3>
-          <p>Realizamos mantenimiento y reparaciones a partir de una evaluación previa, evitando reemplazos innecesarios.</p>
+          <p>Reparamos lo que realmente hay que reparar. Nada más, nada menos.</p>
           <button class="link" onclick="openAdvisor()">Consultar este servicio →</button>
         </div>
       </div>
