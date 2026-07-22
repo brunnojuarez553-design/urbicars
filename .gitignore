@@ -1,0 +1,14 @@
+# Dependencias (por si en el futuro se agrega alguna función serverless / build)
+node_modules/
+
+# Variables de entorno (nunca subir keys al repo)
+.env
+.env.local
+.env.*.local
+
+# Vercel
+.vercel
+
+# Sistema
+.DS_Store
+Thumbs.db

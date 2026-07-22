@@ -1,0 +1,9 @@
+{
+  "name": "urbicars-motors",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sitio web de Urbicars Motors + Asesor Urbicars (chat con IA vía Groq)",
+  "engines": {
+    "node": ">=18"
+  }
+}
