@@ -85,36 +85,48 @@
     display:flex;align-items:center;gap:8px;
     margin-bottom:16px;
   }
-  .eyebrow::before{content:"";width:20px;height:1px;background:var(--neon);}
+  .eyebrow::before{content:"";width:20px;height:1px;background:linear-gradient(90deg, var(--neon), transparent);box-shadow:0 0 6px var(--neon);}
   .btn{
+    position:relative;overflow:hidden;isolation:isolate;
     display:inline-flex;align-items:center;gap:10px;
     padding:15px 28px;
     font-family:var(--font-display);
     font-weight:600;
     font-size:15px;
     letter-spacing:0.02em;
-    border-radius:2px;
-    transition:all .25s ease;
+    border-radius:8px;
+    transition:transform .4s cubic-bezier(.16,1,.3,1), box-shadow .4s cubic-bezier(.16,1,.3,1), border-color .3s ease, background-color .3s ease, color .3s ease;
     white-space:nowrap;
+    cursor:pointer;
   }
+  .btn::after{
+    content:'';position:absolute;top:0;left:-75%;width:45%;height:100%;z-index:1;
+    background:linear-gradient(115deg, transparent, rgba(255,255,255,.22), transparent);
+    transform:skewX(-18deg);
+    transition:left .85s cubic-bezier(.16,1,.3,1);
+    pointer-events:none;
+  }
+  .btn:hover::after{left:130%;}
+  .btn span, .btn{position:relative;}
+  .btn:active{transform:scale(.95) !important;transition-duration:.15s;}
   .btn-primary{
     background:linear-gradient(135deg, var(--blue), var(--blue-dim));
     color:var(--white);
     box-shadow:0 0 0 1px rgba(47,111,255,.4), 0 8px 30px -8px rgba(47,111,255,.6);
   }
-  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 0 0 1px rgba(47,111,255,.6), 0 12px 34px -6px rgba(47,111,255,.75);}
+  .btn-primary:hover{transform:translateY(-3px) scale(1.015);box-shadow:0 0 0 1px rgba(47,111,255,.7), 0 18px 40px -10px rgba(47,111,255,.85);}
   .btn-ghost{
     background:transparent;
     color:var(--white);
     border:1px solid var(--line);
   }
-  .btn-ghost:hover{border-color:var(--neon);color:var(--neon);}
+  .btn-ghost:hover{transform:translateY(-3px);border-color:var(--neon);color:var(--neon);box-shadow:0 14px 30px -14px rgba(0,229,255,.5);}
   .btn-whatsapp{
     background:transparent;
     border:1px solid #25D36655;
     color:#25D366;
   }
-  .btn-whatsapp:hover{border-color:#25D366;background:#25D3660f;}
+  .btn-whatsapp:hover{transform:translateY(-3px);border-color:#25D366;background:#25D3660f;box-shadow:0 14px 32px -12px rgba(37,211,102,.55);}
 
   /* ===== NAV ===== */
   header{
@@ -258,10 +270,10 @@
   .hero{
     position:relative;
     min-height:100svh;
-    display:flex;flex-direction:column;justify-content:center;
+    display:flex;flex-direction:column;justify-content:flex-start;
     overflow:hidden;
     background:#000;
-    padding-top:70px;
+    padding-top:28px;
   }
   .hero-media{position:absolute;inset:0;z-index:0;}
   .hero-media video, .hero-media img{
@@ -295,7 +307,7 @@
   }
   .hero-badges{
     display:flex;flex-wrap:wrap;gap:10px;
-    margin-bottom:24px;
+    margin-bottom:40px;
   }
   .hero-badge{
     font-family:var(--font-mono);
@@ -330,9 +342,28 @@
     border-top:1px solid rgba(255,255,255,.08);
     padding-top:20px;
   }
-  .hero-stat-strip{display:flex;gap:36px;flex-wrap:wrap;}
-  .hero-stat{font-family:var(--font-mono);font-size:12px;color:var(--muted-2);}
-  .hero-stat b{display:block;font-family:var(--font-display);font-size:20px;color:var(--white);font-weight:600;}
+  .hero-stat-strip{display:flex;flex-wrap:wrap;}
+  .hero-stat{
+    padding:0 28px;border-left:1px solid var(--line);
+  }
+  .hero-stat:first-child{padding-left:0;border-left:none;}
+  .hero-stat .stat-label{
+    display:flex;align-items:center;gap:7px;
+    font-family:var(--font-mono);font-size:10.5px;color:var(--muted-2);
+    text-transform:uppercase;letter-spacing:.14em;margin-bottom:8px;
+  }
+  .hero-stat .stat-label .dot{width:5px;height:5px;border-radius:50%;background:var(--neon);box-shadow:0 0 7px var(--neon);flex-shrink:0;}
+  .hero-stat b{
+    display:block;font-family:var(--font-display);font-size:18.5px;color:var(--white);
+    font-weight:600;letter-spacing:-.01em;line-height:1.2;
+  }
+  .hero-stat a.stat-value{
+    text-decoration:none;color:var(--white);display:inline-flex;align-items:center;gap:6px;
+    transition:color .3s ease, gap .3s ease;
+  }
+  .hero-stat a.stat-value:hover{color:var(--neon);gap:9px;}
+  .hero-stat a.stat-value::after{content:'↗';font-family:var(--font-mono);font-size:13px;font-weight:400;opacity:.5;transition:opacity .3s ease;}
+  .hero-stat a.stat-value:hover::after{opacity:1;}
   .scroll-cue{
     font-family:var(--font-mono);font-size:11px;color:var(--muted-2);
     display:flex;align-items:center;gap:8px;letter-spacing:.1em;
@@ -377,6 +408,45 @@
   }
   .authority-indicator .num{font-family:var(--font-mono);font-size:11px;color:var(--neon);margin-bottom:8px;display:block;}
   .authority-indicator h4{font-size:14.5px;color:var(--white);font-weight:600;margin-bottom:6px;line-height:1.3;}
+  .method-video-section{
+    margin-top:56px;display:grid;grid-template-columns:1fr auto;gap:48px;align-items:center;
+  }
+  .method-video-copy .method-video-label{
+    display:inline-flex;align-items:center;gap:9px;padding:7px 14px 7px 10px;margin-bottom:16px;
+    font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--neon);border:1px solid rgba(0,229,255,.25);border-radius:20px;background:rgba(0,229,255,.06);
+  }
+  .method-video-label .dot{width:6px;height:6px;border-radius:50%;background:var(--neon);box-shadow:0 0 8px var(--neon);flex-shrink:0;}
+  .method-video-copy h3{font-family:var(--font-display);font-size:clamp(20px,2.4vw,26px);color:var(--white);margin-bottom:12px;line-height:1.25;}
+  .method-video-copy p{color:var(--muted);font-size:15px;max-width:42ch;line-height:1.55;}
+  .method-video-frame{
+    position:relative;width:280px;aspect-ratio:9/16;border-radius:26px;overflow:hidden;flex-shrink:0;
+    border:1px solid var(--line);background:#000;
+    box-shadow:0 1px 0 rgba(255,255,255,.05) inset, 0 30px 70px -26px rgba(0,0,0,.8), 0 0 0 6px rgba(255,255,255,.02);
+  }
+  .method-video-frame::before{
+    content:'';position:absolute;inset:0;z-index:2;pointer-events:none;border-radius:inherit;
+    padding:1px;
+    background:linear-gradient(135deg, rgba(0,229,255,.4), rgba(47,111,255,0) 45%);
+    -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;mask-composite:exclude;
+  }
+  .method-video{width:100%;height:100%;display:block;object-fit:cover;background:#000;}
+  .method-video-play{
+    position:absolute;inset:0;z-index:3;margin:auto;width:64px;height:64px;
+    display:flex;align-items:center;justify-content:center;
+    border-radius:50%;border:1px solid rgba(255,255,255,.35);
+    background:rgba(5,7,10,.55);backdrop-filter:blur(4px);color:var(--white);
+    box-shadow:0 0 0 1px rgba(0,229,255,.15), 0 12px 30px -8px rgba(0,0,0,.7);
+    transition:transform .35s cubic-bezier(.16,1,.3,1), background .35s ease, opacity .35s ease, box-shadow .35s ease;
+  }
+  .method-video-play svg{margin-left:3px;}
+  .method-video-play:hover{transform:scale(1.1);background:rgba(47,111,255,.35);box-shadow:0 0 0 1px rgba(0,229,255,.4), 0 14px 34px -8px rgba(47,111,255,.6);}
+  .method-video-play.is-hidden{opacity:0;pointer-events:none;transform:scale(.7);}
+  @media (max-width:860px){
+    .method-video-section{grid-template-columns:1fr;justify-items:center;text-align:center;}
+    .method-video-copy p{max-width:100%;}
+  }
 
   /* ===== QUIÉNES SOMOS ===== */
   .about-section{
@@ -420,28 +490,61 @@
   .service-card{
     position:relative;
     border:1px solid var(--line);
-    border-radius:4px;
+    border-radius:16px;
     overflow:hidden;
-    background:var(--panel);
+    background:linear-gradient(155deg, var(--panel) 0%, var(--graphite) 100%);
     min-height:280px;
     display:flex;flex-direction:column;justify-content:flex-end;
-    transition:border-color .3s ease, transform .3s ease;
+    isolation:isolate;
+    box-shadow:0 1px 0 rgba(255,255,255,.03) inset, 0 18px 40px -24px rgba(0,0,0,.7);
+    transition:border-color .5s cubic-bezier(.16,1,.3,1), transform .5s cubic-bezier(.16,1,.3,1), box-shadow .5s cubic-bezier(.16,1,.3,1);
   }
-  .service-card:hover{border-color:var(--blue);transform:translateY(-3px);}
+  .service-card::before{
+    content:'';position:absolute;inset:0;z-index:3;pointer-events:none;border-radius:inherit;
+    padding:1px;
+    background:linear-gradient(135deg, rgba(0,229,255,.35), rgba(47,111,255,0) 40%);
+    -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;mask-composite:exclude;
+    opacity:0;transition:opacity .5s ease;
+  }
+  .service-card:hover{
+    border-color:var(--blue-dim);
+    transform:translateY(-6px);
+    box-shadow:0 1px 0 rgba(255,255,255,.05) inset, 0 30px 60px -20px rgba(0,0,0,.85), 0 0 0 1px rgba(47,111,255,.15);
+  }
+  .service-card:hover::before{opacity:1;}
   .service-card.large{grid-column:span 4;min-height:420px;}
   .service-card.medium{grid-column:span 3;min-height:340px;}
   .service-card.small{grid-column:span 2;min-height:280px;}
-  .service-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.45;transition:opacity .3s, transform .5s;}
-  .service-card:hover img{opacity:.6;transform:scale(1.04);}
+  .service-card img{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+    opacity:.5;filter:saturate(.75) contrast(1.05);
+    transform:scale(1.001);
+    transition:opacity .6s cubic-bezier(.16,1,.3,1), transform 1s cubic-bezier(.16,1,.3,1), filter .6s ease;
+  }
+  .service-card:hover img{opacity:.72;transform:scale(1.06);filter:saturate(1.05) contrast(1.08);}
   .service-card-overlay{
     position:absolute;inset:0;
-    background:linear-gradient(180deg, rgba(5,7,10,0) 20%, rgba(5,7,10,.92) 88%);
+    background:linear-gradient(180deg, rgba(5,7,10,.05) 10%, rgba(5,7,10,.55) 55%, rgba(5,7,10,.96) 92%);
   }
-  .service-card-content{position:relative;z-index:2;padding:26px;}
-  .service-card .tag{font-family:var(--font-mono);font-size:10.5px;color:var(--neon);letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:10px;}
-  .service-card h3{font-size:20px;color:var(--white);margin-bottom:8px;line-height:1.2;}
-  .service-card p{font-size:13.5px;color:var(--muted);margin-bottom:14px;max-width:34ch;}
-  .service-card .link{font-family:var(--font-mono);font-size:12px;color:var(--white);display:inline-flex;align-items:center;gap:6px;border-bottom:1px solid var(--blue);padding-bottom:2px;}
+  .service-card-content{position:relative;z-index:2;padding:28px;}
+  .service-card .tag{
+    font-family:var(--font-mono);font-size:10px;color:var(--neon);letter-spacing:.14em;text-transform:uppercase;
+    display:inline-flex;align-items:center;gap:7px;margin-bottom:12px;
+    padding:5px 10px 5px 8px;border-radius:20px;border:1px solid rgba(0,229,255,.25);
+    background:rgba(0,229,255,.06);backdrop-filter:blur(6px);
+  }
+  .service-card .tag::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--neon);box-shadow:0 0 8px var(--neon);flex-shrink:0;}
+  .service-card h3{font-family:var(--font-display);font-size:20px;font-weight:600;color:var(--white);margin-bottom:8px;line-height:1.22;letter-spacing:-.01em;}
+  .service-card.large h3{font-size:25px;}
+  .service-card p{font-size:13.5px;color:var(--muted);margin-bottom:16px;max-width:34ch;line-height:1.5;}
+  .service-card .link{
+    font-family:var(--font-mono);font-size:11.5px;letter-spacing:.03em;color:var(--white);
+    display:inline-flex;align-items:center;gap:6px;
+    padding:9px 16px;border-radius:20px;border:1px solid var(--line);background:rgba(255,255,255,.02);
+    transition:border-color .3s ease, background .3s ease, gap .3s ease;
+  }
+  .service-card .link:hover{border-color:var(--blue);background:rgba(47,111,255,.12);gap:9px;}
 
   /* ===== TECH SECTION ===== */
   .tech{background:linear-gradient(180deg, var(--black), #070a10 50%, var(--black));border-top:1px solid var(--line);position:relative;overflow:hidden;}
@@ -493,25 +596,54 @@
   .filter-btn{
     font-family:var(--font-mono);font-size:12.5px;color:var(--muted);
     border:1px solid var(--line);padding:9px 16px;border-radius:20px;
-    transition:all .2s;
+    transition:border-color .3s ease, color .3s ease, background .3s ease, transform .3s cubic-bezier(.16,1,.3,1);
   }
-  .filter-btn.active, .filter-btn:hover{border-color:var(--blue);color:var(--white);background:rgba(47,111,255,.1);}
+  .filter-btn.active, .filter-btn:hover{border-color:var(--blue);color:var(--white);background:rgba(47,111,255,.1);transform:translateY(-2px);}
   .gallery-grid{
-    display:grid;grid-template-columns:repeat(4, 1fr);gap:16px;
+    display:grid;grid-template-columns:repeat(4, 1fr);gap:18px;
   }
   .gallery-item{
-    position:relative;border-radius:4px;overflow:hidden;
-    aspect-ratio:4/5;border:1px solid var(--line);background:var(--panel);
+    position:relative;border-radius:14px;overflow:hidden;isolation:isolate;
+    aspect-ratio:4/5;border:1px solid var(--line);
+    background:linear-gradient(155deg, var(--panel) 0%, var(--graphite) 100%);
     cursor:pointer;
+    box-shadow:0 1px 0 rgba(255,255,255,.03) inset, 0 16px 36px -22px rgba(0,0,0,.7);
+    transition:border-color .45s cubic-bezier(.16,1,.3,1), transform .45s cubic-bezier(.16,1,.3,1), box-shadow .45s cubic-bezier(.16,1,.3,1);
   }
-  .gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .5s;}
-  .gallery-item:hover img{transform:scale(1.06);}
+  .gallery-item::before{
+    content:'';position:absolute;inset:0;z-index:3;pointer-events:none;border-radius:inherit;
+    padding:1px;
+    background:linear-gradient(135deg, rgba(0,229,255,.4), rgba(47,111,255,0) 45%);
+    -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;mask-composite:exclude;
+    opacity:0;transition:opacity .45s ease;
+  }
+  .gallery-item:hover{
+    border-color:var(--blue-dim);
+    transform:translateY(-5px);
+    box-shadow:0 1px 0 rgba(255,255,255,.05) inset, 0 26px 50px -18px rgba(0,0,0,.85), 0 0 0 1px rgba(47,111,255,.12);
+  }
+  .gallery-item:hover::before{opacity:1;}
+  .gallery-item img{
+    width:100%;height:100%;object-fit:cover;
+    filter:saturate(.7) contrast(1.05);
+    transition:transform .8s cubic-bezier(.16,1,.3,1), filter .5s ease;
+  }
+  .gallery-item:hover img{transform:scale(1.08);filter:saturate(1.05) contrast(1.08);}
   .gallery-item .info{
-    position:absolute;left:0;right:0;bottom:0;padding:16px;
-    background:linear-gradient(180deg, transparent, rgba(5,7,10,.95));
+    position:absolute;left:0;right:0;bottom:0;padding:18px;z-index:2;
+    background:linear-gradient(180deg, transparent, rgba(5,7,10,.65) 45%, rgba(5,7,10,.97));
+    transition:padding-bottom .35s cubic-bezier(.16,1,.3,1);
   }
-  .gallery-item .info .type{font-family:var(--font-mono);font-size:10px;color:var(--neon);letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:4px;}
-  .gallery-item .info h4{font-size:15px;color:var(--white);}
+  .gallery-item:hover .info{padding-bottom:22px;}
+  .gallery-item .info .type{
+    font-family:var(--font-mono);font-size:10px;color:var(--neon);letter-spacing:.1em;text-transform:uppercase;
+    display:inline-flex;align-items:center;gap:6px;margin-bottom:8px;
+    padding:4px 9px 4px 7px;border-radius:20px;border:1px solid rgba(0,229,255,.25);
+    background:rgba(0,229,255,.07);backdrop-filter:blur(6px);
+  }
+  .gallery-item .info .type::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--neon);box-shadow:0 0 7px var(--neon);flex-shrink:0;}
+  .gallery-item .info h4{font-family:var(--font-display);font-size:15.5px;font-weight:600;color:var(--white);letter-spacing:-.005em;}
   .gallery-item[data-cat]{transition:opacity .3s, transform .3s;}
   .gallery-item.hidden{display:none;}
 
@@ -550,9 +682,30 @@
   .contact{background:linear-gradient(180deg, var(--black), var(--graphite));}
   .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;}
   .contact-info{display:flex;flex-direction:column;gap:22px;}
-  .contact-row{display:flex;gap:16px;align-items:flex-start;border-bottom:1px solid var(--line);padding-bottom:20px;}
-  .contact-row .k{font-family:var(--font-mono);font-size:11px;color:var(--muted-2);text-transform:uppercase;letter-spacing:.08em;width:110px;flex-shrink:0;padding-top:2px;}
+  .contact-links{display:flex;flex-direction:column;}
+  .contact-row{
+    display:flex;gap:16px;align-items:center;
+    border-bottom:1px solid var(--line);padding:16px 8px;
+    border-radius:10px;
+    transition:background .35s cubic-bezier(.16,1,.3,1), padding-left .35s cubic-bezier(.16,1,.3,1), border-color .35s ease;
+  }
+  a.contact-row{cursor:pointer;}
+  a.contact-row:hover{background:rgba(47,111,255,.07);padding-left:16px;border-bottom-color:transparent;}
+  .contact-row .crow-icon{
+    width:44px;height:44px;flex-shrink:0;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;font-size:19px;
+    background:var(--panel);border:1px solid var(--line);
+    transition:transform .45s cubic-bezier(.16,1,.3,1), border-color .35s ease, background .35s ease;
+  }
+  a.contact-row:hover .crow-icon{transform:scale(1.12) rotate(-6deg);border-color:var(--blue);background:rgba(47,111,255,.15);}
+  .contact-row .crow-body{display:flex;flex-direction:column;gap:3px;flex:1;min-width:0;}
+  .contact-row .k{font-family:var(--font-mono);font-size:11px;color:var(--muted-2);text-transform:uppercase;letter-spacing:.08em;}
   .contact-row .v{font-size:15.5px;color:var(--white);}
+  .contact-row .crow-arrow{
+    font-family:var(--font-mono);color:var(--muted-2);flex-shrink:0;
+    opacity:0;transform:translateX(-8px);transition:all .35s cubic-bezier(.16,1,.3,1);
+  }
+  a.contact-row:hover .crow-arrow{opacity:1;transform:translateX(0);color:var(--neon);}
   .map-embed{border-radius:6px;overflow:hidden;border:1px solid var(--line);filter:grayscale(1) invert(.92) contrast(.85);height:100%;min-height:320px;}
 
   /* ===== FINAL CTA ===== */
@@ -569,8 +722,10 @@
   .footer-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
   .footer-row p{font-family:var(--font-mono);font-size:12px;color:var(--muted-2);}
   .footer-links{display:flex;gap:20px;}
-  .footer-links a{font-size:13px;color:var(--muted);}
+  .footer-links a{font-size:13px;color:var(--muted);position:relative;transition:color .3s ease;}
+  .footer-links a::after{content:'';position:absolute;left:0;bottom:-3px;width:0;height:1px;background:var(--neon);transition:width .35s cubic-bezier(.16,1,.3,1);}
   .footer-links a:hover{color:var(--white);}
+  .footer-links a:hover::after{width:100%;}
 
   /* ===== AI ADVISOR WIDGET ===== */
   .advisor-fab{
@@ -580,8 +735,11 @@
     background:var(--panel);border:1px solid var(--blue);
     box-shadow:0 10px 40px -10px rgba(47,111,255,.5);
     animation:fab-pulse 3s ease-in-out infinite;
-    padding:0;
+    padding:0;cursor:pointer;
+    transition:transform .4s cubic-bezier(.16,1,.3,1);
   }
+  .advisor-fab:hover{transform:scale(1.08);}
+  .advisor-fab:active{transform:scale(.94);}
   @keyframes fab-pulse{0%,100%{box-shadow:0 10px 40px -10px rgba(47,111,255,.5);}50%{box-shadow:0 10px 46px -6px rgba(47,111,255,.75);}}
   .advisor-fab .fab-logo{
     width:100%;height:100%;border-radius:50%;
@@ -651,7 +809,7 @@
   }
   .advisor-input-row input{
     flex:1;background:var(--graphite);border:1px solid var(--line);border-radius:20px;
-    padding:11px 16px;color:var(--white);font-size:14px;
+    padding:11px 16px;color:var(--white);font-size:16px;
   }
   .advisor-input-row input:focus{outline:none;border-color:var(--blue);}
   .advisor-send{width:40px;height:40px;background:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
@@ -693,6 +851,7 @@
     <div class="nav-links">
       <a href="#inicio">Inicio</a>
       <a href="#quienes-somos">Quiénes Somos</a>
+      <a href="#metodologia">Metodología</a>
       <a href="#servicios">Servicios</a>
       <a href="#tecnologia">Tecnología</a>
       <a href="#proceso">Proceso</a>
@@ -716,12 +875,13 @@
   <div class="mobile-menu-links">
     <a href="#inicio" class="mlink"><span class="mlink-index">01</span>Inicio<span class="mlink-arrow">→</span></a>
     <a href="#quienes-somos" class="mlink"><span class="mlink-index">02</span>Quiénes Somos<span class="mlink-arrow">→</span></a>
-    <a href="#servicios" class="mlink"><span class="mlink-index">03</span>Servicios<span class="mlink-arrow">→</span></a>
-    <a href="#tecnologia" class="mlink"><span class="mlink-index">04</span>Tecnología<span class="mlink-arrow">→</span></a>
-    <a href="#proceso" class="mlink"><span class="mlink-index">05</span>Proceso<span class="mlink-arrow">→</span></a>
-    <a href="#proyectos" class="mlink"><span class="mlink-index">06</span>Proyectos<span class="mlink-arrow">→</span></a>
-    <a href="#faq" class="mlink"><span class="mlink-index">07</span>Preguntas frecuentes<span class="mlink-arrow">→</span></a>
-    <a href="#contacto" class="mlink"><span class="mlink-index">08</span>Contacto<span class="mlink-arrow">→</span></a>
+    <a href="#metodologia" class="mlink"><span class="mlink-index">03</span>Metodología<span class="mlink-arrow">→</span></a>
+    <a href="#servicios" class="mlink"><span class="mlink-index">04</span>Servicios<span class="mlink-arrow">→</span></a>
+    <a href="#tecnologia" class="mlink"><span class="mlink-index">05</span>Tecnología<span class="mlink-arrow">→</span></a>
+    <a href="#proceso" class="mlink"><span class="mlink-index">06</span>Proceso<span class="mlink-arrow">→</span></a>
+    <a href="#proyectos" class="mlink"><span class="mlink-index">07</span>Proyectos<span class="mlink-arrow">→</span></a>
+    <a href="#faq" class="mlink"><span class="mlink-index">08</span>Preguntas frecuentes<span class="mlink-arrow">→</span></a>
+    <a href="#contacto" class="mlink"><span class="mlink-index">09</span>Contacto<span class="mlink-arrow">→</span></a>
   </div>
   <div class="mobile-menu-divider"></div>
   <div class="mobile-menu-contact">
@@ -730,7 +890,7 @@
   </div>
   <div class="mobile-menu-cta">
     <button class="btn btn-primary" onclick="openAdvisor();closeMenu()">Diagnosticar mi vehículo</button>
-    <a class="btn btn-whatsapp" id="waMenuLink" target="_blank" rel="noopener">Hablar por WhatsApp</a>
+    <a class="btn btn-whatsapp" id="waMenuLink" target="_blank" rel="noopener">💬 Hablar por WhatsApp</a>
   </div>
 </div>
 
@@ -758,21 +918,52 @@
     <p class="sub">Tecnología, experiencia y herramientas profesionales para obtener un diagnóstico preciso y el mejor desempeño de tu vehículo.</p>
     <div class="hero-ctas">
       <button class="btn btn-primary" onclick="openAdvisor()">Solicitar evaluación</button>
-      <a class="btn btn-whatsapp" id="waHeroLink" target="_blank" rel="noopener">Hablar por WhatsApp</a>
+      <a class="btn btn-whatsapp" id="waHeroLink" target="_blank" rel="noopener">💬 Hablar por WhatsApp</a>
     </div>
     <div class="hero-footer-row">
       <div class="hero-stat-strip">
-        <div class="hero-stat"><b>Maracay</b>Venezuela</div>
-        <div class="hero-stat"><b>@urbicarsmotors</b>Instagram</div>
-        <div class="hero-stat"><b>Muscle · Americanos · Modernos</b>Especialidad</div>
+        <div class="hero-stat">
+          <span class="stat-label"><span class="dot"></span>Ubicación</span>
+          <b>Maracay, Venezuela</b>
+        </div>
+        <div class="hero-stat">
+          <span class="stat-label"><span class="dot"></span>Instagram</span>
+          <a class="stat-value" href="https://www.instagram.com/urbicarsmotors" target="_blank" rel="noopener"><b>@urbicarsmotors</b></a>
+        </div>
+        <div class="hero-stat">
+          <span class="stat-label"><span class="dot"></span>Especialidad</span>
+          <b>Muscle · Americanos · Modernos</b>
+        </div>
       </div>
       <div class="scroll-cue"><div class="bar"></div>SCROLL</div>
     </div>
   </div>
 </section>
 
+<!-- ============ QUIÉNES SOMOS ============ -->
+<section class="section-pad about-section" id="quienes-somos">
+  <div class="container about-grid">
+    <div class="about-media">
+      <img src="https://res.cloudinary.com/dgp7uhps3/image/upload/f_auto,q_auto,w_900/v1784677311/IMG_9037_uxlvii.jpg" alt="Equipo de Urbicars Motors trabajando en el taller">
+    </div>
+    <div class="about-text">
+      <div class="eyebrow">Quiénes somos</div>
+      <h2>Un taller construido alrededor del diagnóstico</h2>
+      <p>Urbicars Motors nace en Maracay como un centro enfocado en entender cada vehículo antes de intervenirlo. Trabajamos con vehículos de todas las marcas, especializándonos en muscle cars, vehículos americanos y unidades modernas con electrónica avanzada, combinando herramientas profesionales de diagnóstico y programación con un proceso técnico ordenado en cada etapa.</p>
+      <p>Nuestro enfoque no es prometer resultados sin evaluación: es analizar la información real del vehículo, con las herramientas correctas, para tomar decisiones fundamentadas.</p>
+      <div class="about-points">
+        <div class="about-point"><span class="num">01</span>Rigor técnico en cada diagnóstico</div>
+        <div class="about-point"><span class="num">02</span>Herramientas profesionales de programación</div>
+        <div class="about-point"><span class="num">03</span>Enfoque en vehículos americanos y de alto rendimiento</div>
+        <div class="about-point"><span class="num">04</span>Atención directa y personalizada</div>
+      </div>
+      <a class="btn btn-ghost" href="https://www.instagram.com/urbicarsmotors" target="_blank" rel="noopener">📸 Conocer el taller en Instagram</a>
+    </div>
+  </div>
+</section>
+
 <!-- ============ AUTORIDAD ============ -->
-<section class="authority section-pad">
+<section class="authority section-pad" id="metodologia">
   <div class="container authority-grid">
     <div class="authority-text">
       <div class="eyebrow">Metodología</div>
@@ -789,31 +980,22 @@
       </div>
     </div>
   </div>
-</section>
-
-<!-- ============ QUIÉNES SOMOS ============ -->
-<section class="section-pad about-section" id="quienes-somos">
-  <div class="container about-grid">
-    <div class="about-media">
-      <img src="https://res.cloudinary.com/dgp7uhps3/image/upload/f_auto,q_auto,w_900/v1784677311/IMG_9037_uxlvii.jpg" alt="Equipo de Urbicars Motors trabajando en el taller">
-    </div>
-    <div class="about-text">
-      <div class="eyebrow">Quiénes somos</div>
-      <h2>Un taller construido alrededor del diagnóstico</h2>
-      <p>Urbicars Motors nace en Maracay como un centro enfocado en entender cada vehículo antes de intervenirlo. Trabajamos principalmente con muscle cars, vehículos americanos y unidades modernas con electrónica avanzada, combinando herramientas profesionales de diagnóstico y programación con un proceso técnico ordenado en cada etapa.</p>
-      <p>Nuestro enfoque no es prometer resultados sin evaluación: es analizar la información real del vehículo, con las herramientas correctas, para tomar decisiones fundamentadas.</p>
-      <div class="about-points">
-        <div class="about-point"><span class="num">01</span>Rigor técnico en cada diagnóstico</div>
-        <div class="about-point"><span class="num">02</span>Herramientas profesionales de programación</div>
-        <div class="about-point"><span class="num">03</span>Enfoque en vehículos americanos y de alto rendimiento</div>
-        <div class="about-point"><span class="num">04</span>Atención directa y personalizada</div>
+  <div class="container">
+    <div class="method-video-section">
+      <div class="method-video-copy">
+        <div class="method-video-label"><span class="dot"></span>Video del proceso</div>
+        <h3>Cómo trabajamos una reprogramación</h3>
+        <p>Antes de potenciar un vehículo, verificamos que todos los parámetros del motor estén en estado óptimo. Solo cuando esa base está confirmada, se procede con la reprogramación.</p>
       </div>
-      <a class="btn btn-ghost" href="https://www.instagram.com/urbicarsmotors" target="_blank" rel="noopener">Conocer el taller en Instagram</a>
+      <div class="method-video-frame">
+        <video class="method-video" id="methodVideo" src="https://res.cloudinary.com/dgp7uhps3/video/upload/v1784690624/47EE2F37-68EE-4C8A-A104-CBAE3CE59B5D_nva7ct.mp4" poster="https://res.cloudinary.com/dgp7uhps3/video/upload/so_0/v1784690624/47EE2F37-68EE-4C8A-A104-CBAE3CE59B5D_nva7ct.jpg" playsinline preload="metadata"></video>
+        <button type="button" class="method-video-play" id="methodVideoPlay" aria-label="Reproducir video" onclick="const v=document.getElementById('methodVideo');v.controls=true;v.play();this.classList.add('is-hidden');">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M8 5v14l11-7L8 5z" fill="currentColor"/></svg>
+        </button>
+      </div>
     </div>
   </div>
 </section>
-
-<!-- ============ SERVICIOS ============ -->
 <section class="section-pad services-section" id="servicios">
   <div class="container">
     <div class="section-head">
@@ -1141,7 +1323,7 @@
     </div>
     <div class="testimonials-placeholder">
       <p>Esta sección está preparada para mostrar testimonios reales de clientes de Urbicars Motors. Mientras se recopilan, puedes revisar el trabajo y las experiencias compartidas directamente en Instagram.</p>
-      <a class="btn btn-ghost" href="https://www.instagram.com/urbicarsmotors" target="_blank" rel="noopener">Ver en Instagram @urbicarsmotors</a>
+      <a class="btn btn-ghost" href="https://www.instagram.com/urbicarsmotors" target="_blank" rel="noopener">📸 Ver en Instagram @urbicarsmotors</a>
     </div>
   </div>
 </section>
@@ -1152,12 +1334,29 @@
     <div class="contact-info">
       <div class="eyebrow">Contacto</div>
       <h2 style="font-size:clamp(24px,3.4vw,34px);margin-bottom:8px;">Coordina tu evaluación</h2>
-      <div class="contact-row"><span class="k">WhatsApp</span><span class="v" id="contactWaText">+58 414-5871908</span></div>
-      <div class="contact-row"><span class="k">Instagram</span><span class="v">@urbicarsmotors</span></div>
-      <div class="contact-row"><span class="k">Ubicación</span><span class="v">Maracay, estado Aragua, Venezuela</span></div>
-      <div class="contact-row"><span class="k">Horario</span><span class="v">Lunes a sábado — horario a confirmar por WhatsApp</span></div>
+      <div class="contact-links">
+        <a class="contact-row" id="contactWaRow" target="_blank" rel="noopener">
+          <span class="crow-icon">💬</span>
+          <span class="crow-body"><span class="k">WhatsApp</span><span class="v" id="contactWaText">+58 414-5871908</span></span>
+          <span class="crow-arrow">→</span>
+        </a>
+        <a class="contact-row" href="https://www.instagram.com/urbicarsmotors" target="_blank" rel="noopener">
+          <span class="crow-icon">📸</span>
+          <span class="crow-body"><span class="k">Instagram</span><span class="v">@urbicarsmotors</span></span>
+          <span class="crow-arrow">→</span>
+        </a>
+        <a class="contact-row" href="https://www.google.com/maps?q=Maracay,Aragua,Venezuela" target="_blank" rel="noopener">
+          <span class="crow-icon">📍</span>
+          <span class="crow-body"><span class="k">Ubicación</span><span class="v">Maracay, estado Aragua, Venezuela</span></span>
+          <span class="crow-arrow">→</span>
+        </a>
+        <div class="contact-row">
+          <span class="crow-icon">🕒</span>
+          <span class="crow-body"><span class="k">Horario</span><span class="v">Lunes a sábado — horario a confirmar por WhatsApp</span></span>
+        </div>
+      </div>
       <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;">
-        <a class="btn btn-whatsapp" id="waContactLink" target="_blank" rel="noopener">Hablar por WhatsApp</a>
+        <a class="btn btn-whatsapp" id="waContactLink" target="_blank" rel="noopener">💬 Hablar por WhatsApp</a>
         <button class="btn btn-ghost" onclick="openAdvisor()">Abrir asesor digital</button>
       </div>
     </div>
@@ -1177,7 +1376,7 @@
   <div class="container footer-row">
     <p>© <span id="year"></span> URBICARS MOTORS — Maracay, Venezuela</p>
     <div class="footer-links">
-      <a href="https://www.instagram.com/urbicarsmotors" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.instagram.com/urbicarsmotors" target="_blank" rel="noopener">📸 Instagram</a>
       <a href="#contacto">Contacto</a>
     </div>
   </div>
@@ -1202,7 +1401,7 @@
   </div>
   <div class="advisor-body" id="advisorBody"></div>
   <div class="advisor-wa-cta" id="advisorWaCta" style="display:none;">
-    <a class="btn btn-whatsapp" id="advisorWaBtn" target="_blank" rel="noopener">Enviar consulta a Urbicars Motors</a>
+    <a class="btn btn-whatsapp" id="advisorWaBtn" target="_blank" rel="noopener">💬 Enviar consulta a Urbicars Motors</a>
   </div>
   <div class="advisor-input-row" id="advisorInputRow">
     <input type="text" id="advisorInput" placeholder="Escribe tu respuesta..." autocomplete="off">
@@ -1279,7 +1478,7 @@ function buildWaLink(message){
   return `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 }
 const defaultWaMsg = "Hola, vi la página de Urbicars Motors y quisiera realizar una consulta sobre mi vehículo.";
-['waHeroLink','waContactLink','waMenuLink'].forEach(id=>{
+['waHeroLink','waContactLink','waMenuLink','contactWaRow'].forEach(id=>{
   const el = document.getElementById(id);
   if(el) el.href = buildWaLink(defaultWaMsg);
 });
@@ -1537,6 +1736,15 @@ advisorSend.addEventListener('click', ()=>{
 advisorInput.addEventListener('keydown', (e)=>{
   if(e.key === 'Enter'){ advisorSend.click(); }
 });
+
+const methodVideo = document.getElementById('methodVideo');
+const methodVideoPlay = document.getElementById('methodVideoPlay');
+if(methodVideo && methodVideoPlay){
+  ['pause','ended'].forEach(evt=>{
+    methodVideo.addEventListener(evt, ()=>methodVideoPlay.classList.remove('is-hidden'));
+  });
+  methodVideo.addEventListener('play', ()=>methodVideoPlay.classList.add('is-hidden'));
+}
 
 </script>
 
