@@ -411,27 +411,27 @@
     padding-top:20px;
   }
   .hero-stat-strip{display:flex;flex-wrap:wrap;}
-  .hero-stat{
-    padding:0 28px;border-left:1px solid var(--line);
+  .hero-icon-links{display:flex;flex-wrap:wrap;gap:14px;}
+  .hero-icon-link{
+    display:flex;align-items:center;gap:10px;
+    padding:8px 18px 8px 8px;
+    border:1px solid var(--line);border-radius:40px;
+    background:rgba(10,13,18,.5);
+    text-decoration:none;color:var(--muted);
+    transition:border-color .3s ease, color .3s ease, background .3s ease, transform .3s ease;
   }
-  .hero-stat:first-child{padding-left:0;border-left:none;}
-  .hero-stat .stat-label{
-    display:flex;align-items:center;gap:7px;
-    font-family:var(--font-mono);font-size:10.5px;color:var(--muted-2);
-    text-transform:uppercase;letter-spacing:.14em;margin-bottom:8px;
+  .hero-icon-link:hover{border-color:var(--neon);color:var(--white);background:rgba(0,229,255,.06);transform:translateY(-2px);}
+  .hero-icon-link-ico{
+    width:32px;height:32px;border-radius:50%;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    background:rgba(0,229,255,.08);border:1px solid var(--line);
+    transition:border-color .3s ease, background .3s ease;
   }
-  .hero-stat .stat-label .dot{width:5px;height:5px;border-radius:50%;background:var(--neon);box-shadow:0 0 7px var(--neon);flex-shrink:0;}
-  .hero-stat b{
-    display:block;font-family:var(--font-display);font-size:18.5px;color:var(--white);
-    font-weight:600;letter-spacing:-.01em;line-height:1.2;
-  }
-  .hero-stat a.stat-value{
-    text-decoration:none;color:var(--white);display:inline-flex;align-items:center;gap:6px;
-    transition:color .3s ease, gap .3s ease;
-  }
-  .hero-stat a.stat-value:hover{color:var(--neon);gap:9px;}
-  .hero-stat a.stat-value::after{content:'↗';font-family:var(--font-mono);font-size:13px;font-weight:400;opacity:.5;transition:opacity .3s ease;}
-  .hero-stat a.stat-value:hover::after{opacity:1;}
+  .hero-icon-link-ico svg{width:15px;height:15px;stroke:var(--neon);fill:none;stroke-width:1.8;}
+  .hero-icon-link:hover .hero-icon-link-ico{border-color:var(--neon);background:rgba(0,229,255,.16);}
+  .hero-icon-link-text{display:flex;flex-direction:column;gap:1px;line-height:1.25;}
+  .hero-icon-link-label{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2);}
+  .hero-icon-link-value{font-family:var(--font-display);font-size:13.5px;color:var(--white);font-weight:600;letter-spacing:-.01em;}
   .scroll-cue{
     font-family:var(--font-mono);font-size:11px;color:var(--muted-2);
     display:flex;align-items:center;gap:8px;letter-spacing:.1em;
@@ -908,23 +908,29 @@
     backdrop-filter:blur(8px);
     opacity:0;visibility:hidden;
     display:flex;align-items:center;justify-content:center;
-    padding:24px;
+    padding:0;
     transition:opacity .4s cubic-bezier(.16,1,.3,1), visibility .4s;
   }
   .reprog-overlay.open{opacity:1;visibility:visible;}
   .reprog-modal{
-    position:relative;width:100%;max-width:1100px;
-    max-height:88svh;
-    background:
-      radial-gradient(600px 300px at 100% 0%, rgba(0,229,255,.07), transparent 60%),
-      linear-gradient(160deg, #0b0e14 0%, #05070a 100%);
-    border:1px solid var(--line);border-radius:14px;
-    box-shadow:0 60px 140px -40px rgba(0,0,0,.9), 0 0 0 1px rgba(0,229,255,.06);
+    position:relative;width:100vw;height:100svh;
+    max-width:100vw;max-height:100svh;
+    background:#05070a;
+    border:none;border-radius:0;
+    box-shadow:none;
     display:flex;flex-direction:column;overflow:hidden;
-    transform:scale(.94) translateY(18px);opacity:0;
+    transform:scale(.98);opacity:0;
     transition:transform .45s cubic-bezier(.16,1,.3,1), opacity .45s ease;
   }
   .reprog-overlay.open .reprog-modal{transform:scale(1) translateY(0);opacity:1;}
+  .reprog-modal-bg{position:absolute;inset:0;z-index:0;}
+  .reprog-modal-bg img{width:100%;height:100%;object-fit:cover;display:block;}
+  .reprog-modal-bg::after{
+    content:'';position:absolute;inset:0;
+    background:
+      radial-gradient(900px 500px at 100% 0%, rgba(0,229,255,.10), transparent 55%),
+      linear-gradient(180deg, rgba(5,7,10,.55) 0%, rgba(5,7,10,.86) 42%, rgba(5,7,10,.97) 100%);
+  }
   .reprog-modal-close{
     position:absolute;top:16px;right:16px;z-index:5;
     width:40px;height:40px;border-radius:50%;
@@ -933,13 +939,10 @@
     font-size:16px;transition:border-color .25s ease, transform .25s ease;
   }
   .reprog-modal-close:hover{border-color:var(--neon);transform:rotate(90deg);}
-  .reprog-modal-scroll{overflow-y:auto;padding:52px clamp(20px,4vw,56px) 48px;}
+  .reprog-modal-scroll{position:relative;z-index:1;flex:1;overflow-y:auto;padding:64px clamp(20px,4vw,56px) 56px;}
   .reprog-eyebrow{font-family:var(--font-mono);font-size:12px;color:var(--neon);letter-spacing:.18em;text-transform:uppercase;margin-bottom:14px;}
   .reprog-modal h2{font-size:clamp(24px,3.6vw,36px);line-height:1.15;margin-bottom:16px;max-width:20ch;}
   .reprog-modal-intro{color:var(--muted);font-size:15.5px;line-height:1.7;max-width:62ch;margin-bottom:22px;}
-  .reprog-modal-media{width:100%;border-radius:10px;overflow:hidden;margin-bottom:26px;border:1px solid var(--line);position:relative;aspect-ratio:16/7;}
-  .reprog-modal-media img{width:100%;height:100%;object-fit:cover;display:block;}
-  .reprog-modal-media::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg, rgba(5,7,10,.05) 0%, rgba(5,7,10,.55) 100%);}
   .reprog-flow{
     font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;color:var(--muted-2);
     display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px;
@@ -1110,16 +1113,15 @@
 <!-- ============ MODAL PREMIUM DE REPROGRAMACIÓN ============ -->
 <div class="reprog-overlay" id="reprogOverlay">
   <div class="reprog-modal" id="reprogModal" role="dialog" aria-modal="true" aria-labelledby="reprogModalTitle">
+    <div class="reprog-modal-bg">
+      <img src="https://res.cloudinary.com/dgp7uhps3/image/upload/v1784679455/hp_tuners_y_calibracion_suppgr.jpg" alt="Calibración y reprogramación con HP Tuners en Urbicars Motors">
+    </div>
     <button class="reprog-modal-close" id="reprogModalClose" aria-label="Cerrar">✕</button>
     <div class="reprog-modal-scroll">
 
       <div class="reprog-eyebrow">Reprogramación automotriz</div>
       <h2 id="reprogModalTitle">Tu vehículo no necesita un archivo genérico.</h2>
       <p class="reprog-modal-intro">Antes de realizar cualquier ajuste analizamos el estado del vehículo, su configuración electrónica, sus modificaciones y el objetivo que buscas.</p>
-
-      <div class="reprog-modal-media">
-        <img src="https://res.cloudinary.com/dgp7uhps3/image/upload/v1784679455/hp_tuners_y_calibracion_suppgr.jpg" alt="Calibración y reprogramación con HP Tuners en Urbicars Motors">
-      </div>
 
       <div class="reprog-flow">
         <span class="on">DIAGNÓSTICO</span>→<span class="on">ANÁLISIS</span>→<span>CALIBRACIÓN</span>→<span>VERIFICACIÓN</span>
@@ -1266,12 +1268,6 @@
   <div class="hero-scan-line"></div>
 
   <div class="hero-inner">
-    <div class="hero-badges">
-      <span class="hero-badge">Diagnóstico basado en datos</span>
-      <span class="hero-badge">Reprogramación personalizada</span>
-      <span class="hero-badge">Herramientas profesionales</span>
-      <span class="hero-badge">Vehículos americanos y modernos</span>
-    </div>
     <h1>Detectamos el problema real. <em>Reprogramamos con precisión.</em></h1>
     <p class="sub" style="margin-bottom:10px;">Analizamos datos, módulos y sistemas del vehículo para encontrar la causa de una falla o definir la calibración correcta antes de realizar cualquier intervención.</p>
     <p style="font-size:14.5px;color:var(--muted-2);max-width:46ch;margin-bottom:32px;">Primero analizamos. Después corregimos, calibramos u optimizamos.</p>
@@ -1279,21 +1275,42 @@
       <button class="btn btn-primary" data-cta="diagnostic-hero" onclick="openAdvisor()">Diagnosticar mi vehículo</button>
       <button class="btn btn-reprogramming" data-cta="reprogramming-hero" onclick="openReprogrammingModal()">Agendar reprogramación</button>
     </div>
+    <div class="hero-badges">
+      <span class="hero-badge">Diagnóstico basado en datos</span>
+      <span class="hero-badge">Reprogramación personalizada</span>
+      <span class="hero-badge">Herramientas profesionales</span>
+      <span class="hero-badge">Vehículos americanos y modernos</span>
+    </div>
     <p style="font-family:var(--font-mono);font-size:12px;color:var(--muted-2);letter-spacing:.03em;margin-bottom:44px;">Diagnóstico avanzado · Calibración personalizada · Vehículos americanos</p>
     <div class="hero-footer-row">
-      <div class="hero-stat-strip">
-        <div class="hero-stat">
-          <span class="stat-label"><span class="dot"></span>Ubicación</span>
-          <b>Maracay, Venezuela</b>
-        </div>
-        <div class="hero-stat">
-          <span class="stat-label"><span class="dot"></span>Instagram</span>
-          <a class="stat-value" href="https://www.instagram.com/urbicarsmotors" target="_blank" rel="noopener"><b>@urbicarsmotors</b></a>
-        </div>
-        <div class="hero-stat">
-          <span class="stat-label"><span class="dot"></span>Especialidad</span>
-          <b>Muscle · Americanos · Modernos</b>
-        </div>
+      <div class="hero-icon-links">
+        <a class="hero-icon-link" href="https://www.google.com/maps?q=Maracay,Aragua,Venezuela" target="_blank" rel="noopener" aria-label="Ver ubicación de Urbicars Motors en Maracay, Venezuela">
+          <span class="hero-icon-link-ico">
+            <svg viewBox="0 0 24 24"><path d="M12 21s-7-6.1-7-11.5A7 7 0 0 1 19 9.5C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.3"/></svg>
+          </span>
+          <span class="hero-icon-link-text">
+            <span class="hero-icon-link-label">Ubicación</span>
+            <span class="hero-icon-link-value">Maracay, Venezuela</span>
+          </span>
+        </a>
+        <a class="hero-icon-link" href="https://www.instagram.com/urbicarsmotors" target="_blank" rel="noopener" aria-label="Ver Instagram de Urbicars Motors">
+          <span class="hero-icon-link-ico">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="3.6"/><circle cx="17.3" cy="6.7" r="1"/></svg>
+          </span>
+          <span class="hero-icon-link-text">
+            <span class="hero-icon-link-label">Instagram</span>
+            <span class="hero-icon-link-value">@urbicarsmotors</span>
+          </span>
+        </a>
+        <a class="hero-icon-link" href="#servicios" aria-label="Ver especialidades de Urbicars Motors">
+          <span class="hero-icon-link-ico">
+            <svg viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 1-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 0 1 5.4-5.4l-2.6 2.6-2-2z"/></svg>
+          </span>
+          <span class="hero-icon-link-text">
+            <span class="hero-icon-link-label">Especialidad</span>
+            <span class="hero-icon-link-value">Muscle · Americanos · Modernos</span>
+          </span>
+        </a>
       </div>
       <div class="scroll-cue"><div class="bar"></div>SCROLL</div>
     </div>
