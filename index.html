@@ -553,17 +553,47 @@
 
   /* ===== "QUIÉNES SOMOS" resumido dentro de Metodología ===== */
   .authority-about-teaser{
+    position:relative;overflow:hidden;isolation:isolate;
     display:flex;align-items:center;gap:14px;
     margin-top:28px;padding:12px;
     border:1px solid var(--line);border-radius:10px;
     background:rgba(255,255,255,.02);
     text-align:left;max-width:420px;
-    transition:border-color .3s ease, background .3s ease, transform .3s ease;
+    transition:border-color .3s ease, background .3s ease, transform .3s ease, box-shadow .3s ease;
+    animation:teaser-pulse-glow 2.8s ease-in-out infinite;
   }
-  .authority-about-teaser:hover{border-color:var(--blue-dim);background:rgba(47,111,255,.06);transform:translateY(-2px);}
-  .authority-about-teaser img{width:52px;height:52px;border-radius:50%;object-fit:cover;flex-shrink:0;border:1px solid var(--line);}
+  .authority-about-teaser::before{
+    content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+    background:linear-gradient(115deg, transparent, rgba(77,196,212,.16), transparent);
+    transform:translateX(-130%) skewX(-15deg);
+    animation:teaser-shine 4.2s ease-in-out infinite;
+  }
+  .authority-about-teaser > *{position:relative;z-index:1;}
+  @keyframes teaser-pulse-glow{
+    0%,100%{box-shadow:0 0 0 0 rgba(47,111,255,0);}
+    50%{box-shadow:0 0 0 4px rgba(47,111,255,.09), 0 10px 26px -12px rgba(47,111,255,.4);}
+  }
+  @keyframes teaser-shine{
+    0%{transform:translateX(-130%) skewX(-15deg);}
+    45%,100%{transform:translateX(160%) skewX(-15deg);}
+  }
+  .authority-about-teaser:hover{
+    border-color:var(--neon);
+    background:rgba(47,111,255,.08);
+    transform:translateY(-3px) scale(1.015);
+    box-shadow:0 0 0 1px rgba(77,196,212,.35), 0 16px 34px -14px rgba(77,196,212,.5);
+    animation-play-state:paused;
+  }
+  .authority-about-teaser img{width:52px;height:52px;border-radius:50%;object-fit:cover;flex-shrink:0;border:1px solid var(--line);transition:border-color .3s ease, transform .3s ease;}
+  .authority-about-teaser:hover img{border-color:var(--neon);transform:scale(1.06);}
   .authority-about-teaser span{display:flex;flex-direction:column;gap:3px;font-size:13px;color:var(--muted);line-height:1.4;}
   .authority-about-teaser span b{font-family:var(--font-display);font-size:14.5px;color:var(--white);font-weight:600;}
+  .teaser-arrow{display:inline-block;animation:teaser-arrow-nudge 2.2s ease-in-out infinite;}
+  @keyframes teaser-arrow-nudge{
+    0%,18%,100%{transform:translateX(0);}
+    9%{transform:translateX(5px);}
+  }
+  .authority-about-teaser:hover .teaser-arrow{animation:none;transform:translateX(6px);}
 
   /* ===== SERVICES (editorial) ===== */
   .services-section{
@@ -1112,7 +1142,7 @@
 <header id="mainHeader">
   <nav>
     <a href="#inicio" class="logo">
-      <img src="https://res.cloudinary.com/dgp7uhps3/image/upload/f_auto,q_auto,h_36/v1784668104/IMG_9013_lnm7hj_wqhwqn.png" alt="Urbicars Motors" style="height:48px;width:auto;">
+      <img src="https://res.cloudinary.com/dgp7uhps3/image/upload/f_auto,q_auto,h_144/v1784668104/IMG_9013_lnm7hj_wqhwqn.png" alt="Urbicars Motors" style="height:48px;width:auto;">
     </a>
     <div class="nav-links">
       <a href="#inicio">Inicio</a>
@@ -1470,7 +1500,7 @@
         <img src="https://res.cloudinary.com/dgp7uhps3/image/upload/f_auto,q_auto,w_120,h_120,c_fill/v1784677311/IMG_9037_uxlvii.jpg" alt="Equipo de Urbicars Motors">
         <span>
           <b>Quiénes somos</b>
-          Conocé el taller y el equipo detrás de cada diagnóstico →
+          Conocé el taller y el equipo detrás de cada diagnóstico <span class="teaser-arrow">→</span>
         </span>
       </button>
     </div>
